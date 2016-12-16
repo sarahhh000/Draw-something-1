@@ -1,14 +1,151 @@
 ;
 var game;
 (function (game) {
+    game.hasLvCt = false;
+    game.isDrawFinished = false;
+    game.currentLevel = "Easy";
+    game.currentCategory = "Animal";
+    game.levels = ["easy", "medium", "hard"];
+    game.categories = ["company", "logo", "fruit", "ct4", "ct5", "ct6", "ct7", "ct8", "ct9"];
+    game.colors = ["black", "white", "red", "orange", "yellow", "blue", "green", "violet"];
+    game.sizes = [1, 2, 3, 5, 8, 10, 12, 15];
+    game.buttons = { "recordBtn": "Record", "playBtn": "Play", "pauseBtn": "Pause", "clearBtn": "Clear" };
+    game.currentWord = "someWord";
+    game.size = 1;
+    game.color = "black";
+    game.isRecording = true;
+    game.isMouseDown = false;
+    game.lastMouseX = -1;
+    game.lastMouseY = -1;
+    game.line = { points: new Array() };
+    function createPoint(xVal, yVal, drawType) {
+        return { x: xVal, y: yVal, timestamp: (new Date()).getTime(), colorStyle: game.color, sizeStyle: game.size, type: drawType };
+    }
+    game.createPoint = createPoint;
+    function onMouseDown(event) {
+        game.canvas = document.getElementById("canvas");
+        game.ctx = game.canvas.getContext("2d");
+        game.ctx.lineCap = "round";
+        game.currentDrawType = "onMouseDown";
+        game.isMouseDown = true;
+        var canvasX = game.canvas.offsetLeft;
+        var canvasY = game.canvas.offsetTop;
+        var x = Math.floor(event.clientX - canvasX);
+        var y = Math.floor(event.clientY - canvasY);
+        game.currentPoint = createPoint(x, y, game.currentDrawType);
+        drawPoint(game.currentPoint);
+        if (game.isRecording) {
+            game.line.points.push(game.currentPoint);
+        }
+    }
+    game.onMouseDown = onMouseDown;
+    function onMouseMove(event) {
+        if (game.isMouseDown) {
+            game.currentDrawType = "onMouseMove";
+            var canvasX = game.canvas.offsetLeft;
+            var canvasY = game.canvas.offsetTop;
+            var x = Math.floor(event.clientX - canvasX);
+            var y = Math.floor(event.clientY - canvasY);
+            game.currentPoint = createPoint(x, y, game.currentDrawType);
+            drawPoint(game.currentPoint);
+            if (game.isRecording) {
+                game.line.points.push(game.currentPoint);
+            }
+        }
+    }
+    game.onMouseMove = onMouseMove;
+    function drawPoint(point) {
+        var x = point.x;
+        var y = point.y;
+        switch (point.type) {
+            case "onMouseDown":
+                console.log("function drawpoint-moveto");
+                game.ctx.beginPath();
+                game.ctx.moveTo(x, y);
+                console.log(x, y);
+                game.ctx.strokeStyle = point.colorStyle;
+                game.ctx.lineWidth = point.sizeStyle;
+                break;
+            case "onMouseMove":
+                console.log("function drawpoint-lineTo");
+                game.ctx.lineTo(x, y);
+                game.ctx.stroke();
+                break;
+        }
+    }
+    function onMouseUp() {
+        game.isMouseDown = false;
+        game.lastMouseX = -1;
+        game.lastMouseY = -1;
+    }
+    game.onMouseUp = onMouseUp;
+    function onMouseLeave() {
+        game.isMouseDown = false;
+        game.lastMouseX = -1;
+        game.lastMouseY = -1;
+    }
+    game.onMouseLeave = onMouseLeave;
+    function playRecording() {
+        clear();
+        var pointCount = game.line.points.length;
+        for (var i = 0; i < pointCount; i++) {
+            drawPoint(game.line.points[i]);
+        }
+    }
+    game.playRecording = playRecording;
+    function schedulePlay() {
+        var _loop_1 = function(i) {
+            var temp = game.line.points[i];
+            window.setTimeout(function () {
+                drawPoint(temp);
+            }, temp.timestamp - game.timeinterval);
+        };
+        for (var i in game.line.points) {
+            _loop_1(i);
+        }
+    }
+    game.schedulePlay = schedulePlay;
+    function setColor(colorVal) {
+        game.color = colorVal;
+        var colorBtn = document.getElementById("colorVal");
+    }
+    game.setColor = setColor;
+    function setSize(sizeVal) {
+        game.size = sizeVal;
+    }
+    game.setSize = setSize;
+    function clear() {
+        game.canvas = document.getElementById("canvas");
+        game.ctx = game.canvas.getContext("2d");
+        console.log("clear canvas");
+        game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.width);
+    }
+    game.clear = clear;
+    // export function submit() {
+    //   isDrawFinished = true;
+    //   isRecording = false;
+    // }
+    //canvas operations
+    function setLv(lv) {
+        game.currentLevel = lv;
+    }
+    game.setLv = setLv;
+    function setCt(ct) {
+        game.currentCategory = ct;
+        // hasLvCt = true;
+    }
+    game.setCt = setCt;
     // turn: true: guess, false: draw
     game.turn = true;
-    // ......................................................................
     function drawFinish() {
         console.log("click submit");
-        var board = [];
+        game.isDrawFinished = true;
+        game.isRecording = false;
+        var board = game.line;
         var nextMove = gameLogic.createMove(game.state, board, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
+        game.turn = !game.turn;
+        clear();
     }
     game.drawFinish = drawFinish;
     var allLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -44,7 +181,7 @@ var game;
         for (var num in gameLogic.answer_nums) {
             var parent_id = "u" + num;
             var ele = document.getElementById(parent_id).childNodes[0];
-            var letter = ele.src.substring(61, 62);
+            var letter = ele.src.substring(83, 84);
             word = word + letter;
         }
         return word;
@@ -103,7 +240,7 @@ var game;
     function init() {
         registerServiceWorker();
         translate.setTranslations(getTranslations());
-        resizeGameAreaService.setWidthToHeight(0.5);
+        // resizeGameAreaService.setWidthToHeight(1);
         moveService.setGame({
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,

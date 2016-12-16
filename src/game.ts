@@ -10,16 +10,164 @@ interface Translations {
 }
 
 module game {
+
+  export let hasLvCt = false;
+  export let isDrawFinished = false;
+
+  export let currentLevel = "Easy";
+  export let currentCategory = "Animal";
+  export let levels = ["easy", "medium", "hard"];
+  export let categories = ["company", "logo", "fruit", "ct4", "ct5", "ct6", "ct7", "ct8", "ct9"];
+  export let colors = ["black", "white", "red", "orange", "yellow", "blue", "green", "violet"];
+  export let sizes = [1, 2, 3, 5, 8, 10, 12, 15];
+  export let buttons = { "recordBtn": "Record", "playBtn": "Play", "pauseBtn": "Pause", "clearBtn": "Clear" };
+  export let currentWord = "someWord";
+  export let size = 1;
+  export let color = "black";
+
+  export var canvas;
+  export var ctx;
+  export let isRecording = true;
+  export let isMouseDown = false;
+  export let lastMouseX = -1;
+  export let lastMouseY = -1;
+  export let timeinterval:number;
+
+
+  export let currentDrawType: string;
+  export let currentPoint: Point;
+  export let line: Board = { points: new Array<Point>() };
+
+
+  export function createPoint(xVal: number, yVal: number, drawType: string): Point {
+    return { x: xVal, y: yVal, timestamp: (new Date()).getTime(), colorStyle: color, sizeStyle: size, type: drawType }
+  }
+
+  export function onMouseDown(event) {
+    canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    ctx.lineCap = "round";
+    currentDrawType = "onMouseDown";
+    isMouseDown = true;
+    let canvasX = canvas.offsetLeft;
+    let canvasY = canvas.offsetTop;
+    let x = Math.floor(event.clientX - canvasX);
+    let y = Math.floor(event.clientY - canvasY);
+    currentPoint = createPoint(x, y, currentDrawType);
+    drawPoint(currentPoint);
+    if (isRecording) {
+      line.points.push(currentPoint);
+    }
+  }
+
+  export function onMouseMove(event) {
+    if (isMouseDown) {
+      currentDrawType = "onMouseMove";
+      let canvasX = canvas.offsetLeft;
+      let canvasY = canvas.offsetTop;
+      let x = Math.floor(event.clientX - canvasX);
+      let y = Math.floor(event.clientY - canvasY);
+      currentPoint = createPoint(x, y, currentDrawType);
+      drawPoint(currentPoint);
+      if (isRecording) {
+        line.points.push(currentPoint);
+      }
+    }
+  }
+
+  function drawPoint(point: Point) {
+    let x = point.x;
+    let y = point.y;
+    switch (point.type) {
+      case "onMouseDown":
+        console.log("function drawpoint-moveto")
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        console.log(x, y);
+        ctx.strokeStyle = point.colorStyle;
+        ctx.lineWidth = point.sizeStyle;
+        break;
+      case "onMouseMove":
+        console.log("function drawpoint-lineTo")
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        break;
+    }
+  }
+
+  export function onMouseUp() {
+    isMouseDown = false;
+    lastMouseX = -1;
+    lastMouseY = -1;
+  }
+
+  export function onMouseLeave() {
+    isMouseDown = false;
+    lastMouseX = -1;
+    lastMouseY = -1;
+  }
+
+  export function playRecording() {
+    clear();
+    let pointCount = line.points.length;
+    for (let i = 0; i < pointCount; i++) {
+      drawPoint(line.points[i]);
+    }
+  }
+
+  export function schedulePlay() {
+    for (let i in line.points) {
+      let temp: Point = line.points[i];
+      window.setTimeout(function () {
+        drawPoint(temp);
+      }, temp.timestamp - timeinterval);
+    }
+  }
+
+  export function setColor(colorVal: string) {
+    color = colorVal;
+    var colorBtn = <HTMLCanvasElement>document.getElementById("colorVal");
+  }
+  export function setSize(sizeVal: number) {
+    size = sizeVal;
+  }
+
+  export function clear() {
+    canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    console.log("clear canvas");
+    ctx.clearRect(0, 0, canvas.width, canvas.width);
+  }
+
+  // export function submit() {
+  //   isDrawFinished = true;
+  //   isRecording = false;
+  // }
+  //canvas operations
+
+  export function setLv(lv: string) {
+    currentLevel = lv;
+  }
+
+  export function setCt(ct: string) {
+    currentCategory = ct;
+    // hasLvCt = true;
+  }
+
   // turn: true: guess, false: draw
   export let turn: boolean = true;
 
-// ......................................................................
   export function drawFinish() {
     console.log("click submit");
-    let board: Board = [];
+    isDrawFinished = true;
+    
+    isRecording = false;
+    let board: Board = line;
     let nextMove: IMove = gameLogic.createMove(
-          state, board, currentUpdateUI.move.turnIndexAfterMove);
+      state, board, currentUpdateUI.move.turnIndexAfterMove);
     makeMove(nextMove);
+    turn = !turn;
+    clear();
   }
 
   let allLetters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -51,7 +199,7 @@ module game {
     for (let num in gameLogic.answer_nums) {
       let parent_id: string = "u" + num;
       let ele: HTMLImageElement = <HTMLImageElement>document.getElementById(parent_id).childNodes[0];
-      let letter: string = ele.src.substring(61, 62);
+      let letter: string = ele.src.substring(83, 84);
       word = word + letter;
     }
     return word;
@@ -109,7 +257,7 @@ module game {
   export function init() {
     registerServiceWorker();
     translate.setTranslations(getTranslations());
-    resizeGameAreaService.setWidthToHeight(0.5);
+    // resizeGameAreaService.setWidthToHeight(1);
     moveService.setGame({
       minNumberOfPlayers: 2,
       maxNumberOfPlayers: 2,

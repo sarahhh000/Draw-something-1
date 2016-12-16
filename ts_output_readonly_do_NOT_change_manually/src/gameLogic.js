@@ -38,7 +38,7 @@ var gameLogic;
     }
     gameLogic.judge = judge;
     function getInitialBoard() {
-        var board = [];
+        var board = { points: [] };
         return board;
     }
     gameLogic.getInitialBoard = getInitialBoard;

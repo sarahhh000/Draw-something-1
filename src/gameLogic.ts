@@ -1,5 +1,17 @@
 //should be canvas
-type Board = string[];
+interface Point {
+    x: number;
+    y: number;
+    timestamp: number;
+    colorStyle: string;
+    sizeStyle: number;
+    type: string;
+}
+
+interface Board {
+    points: Point[];
+}
+
 
 interface IState {
   board: Board;
@@ -48,7 +60,7 @@ module gameLogic {
   }
 
   export function getInitialBoard(): Board {
-    let board: Board = [];
+    let board: Board = {points:[]};
     return board;
   }
 
