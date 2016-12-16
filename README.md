@@ -1,4 +1,4 @@
-TicTacToe
+Draw Something
 =========
 
-TicTacToe game
+DrawSomething game

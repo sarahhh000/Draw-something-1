@@ -23,38 +23,19 @@ interface IPlayerInfo {
   displayName: string;
   playerId: string;
 }
-interface ICommonUI extends IStateTransition {
-  // -2 is a viewer; otherwise it's the player index (0/1).
-  yourPlayerIndex: number;
-}
-// Proposals are used in community games: each player may submit a proposal, and the game will eventual selected
-// the winning proposal and convert it to a move.
-interface ICommunityUI extends ICommonUI {
-  // You need to know your playerId to make sure you only make one proposal,
-  // i.e., if (playerIdToProposal[yourPlayerId]) then you can't make another proposal.
-  yourPlayerInfo: IPlayerInfo; 
-  // Mapping playerId to his proposal.
-  playerIdToProposal: IProposals; 
-}
-interface IProposal {
-  playerInfo: IPlayerInfo; // the player making the proposal.
-  chatDescription: string; // string representation of the proposal that will be shown in the community game chat.
-  data: IProposalData; // IProposalData must be defined by the game.
-}
-interface IProposals {
-  [playerId: string]: IProposal;
-}
+
 declare type PlayMode = string | number; // 'passAndPlay', 'playAgainstTheComputer', or a number (0/1).
-interface IUpdateUI extends ICommonUI {
+interface IUpdateUI extends IStateTransition {
+  yourPlayerIndex: number;
   playersInfo: IPlayerInfo[];
-  playMode: PlayMode; 
+  // playMode: PlayMode; 
 }
 interface IGame {
   minNumberOfPlayers: number;
   maxNumberOfPlayers: number;
   checkMoveOk(stateTransition: IStateTransition): void;
   updateUI(update: IUpdateUI): void;
-  communityUI(communityUI: ICommunityUI): void;
+  // communityUI(communityUI: ICommunityUI): void;
   getStateForOgImage(): string;
 }
 interface IMoveService {
@@ -67,7 +48,7 @@ interface IMoveService {
   // (and then move will be non-null).
   // Do not allow making a community move if a player already submitted his proposal, i.e.,
   // you can submit at most one proposal.
-  communityMove(proposal: IProposal, move: IMove): void;
+  // communityMove(proposal: IProposal, move: IMove): void;
 }
 declare var moveService: IMoveService;
 

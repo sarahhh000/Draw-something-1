@@ -10,29 +10,110 @@ interface Translations {
 }
 
 module game {
-  // Global variables are cleared when getting updateUI.
-  // I export all variables to make it easy to debug in the browser by
-  // simply typing in the console, e.g.,
-  // game.currentUpdateUI
+  // turn: true: guess, false: draw
+  export let turn: boolean = true;
+
+  export function drawFinish(canvas: ICanvas) {
+    console.log("click submit");
+    let nextMove: IMove = gameLogic.createMove(
+          state, canvas, currentUpdateUI.move.turnIndexAfterMove);
+    makeMove(nextMove);
+  }
+
+  let allLetters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  export function getLetter(col: number): string {
+    return allLetters[col];
+  }
+  let next_avaliable_spot_num: number = 0;
+
+  export function imgClicked(img: HTMLImageElement) {
+    let id = img.id;
+    let old_parent = img.parentElement;
+    let old_parent_id = img.parentElement.id;
+    let old_parent_pos = img.parentElement.id[0];
+    let new_parent_id: string;
+    if (old_parent_pos == "u") {
+      if (parseInt(old_parent_id.substring(1)) != next_avaliable_spot_num - 1) return;
+      next_avaliable_spot_num = next_avaliable_spot_num - 1;
+      new_parent_id = "d" + id;
+    } else { // old_parent_pos == 'd'
+      new_parent_id = "u" + next_avaliable_spot_num;
+      next_avaliable_spot_num = next_avaliable_spot_num + 1;
+    }
+    let new_parent = document.getElementById(new_parent_id);
+    new_parent.appendChild(img);
+    if (next_avaliable_spot_num == gameLogic.answer.length) updateGuesserUI();
+  }
+  function get_word(): string {
+    let word: string = "";
+    for (let num in gameLogic.answer_nums) {
+      let parent_id: string = "u" + num;
+      let ele: HTMLImageElement = <HTMLImageElement>document.getElementById(parent_id).childNodes[0];
+      let letter: string = ele.src.substring(61, 62);
+      word = word + letter;
+    }
+    return word;
+  }
+  export function updateGuesserUI() {
+    let word: string = get_word();
+    let result: boolean = gameLogic.judge(word);
+    if (result) {
+      console.log("win");
+      document.getElementById("message").innerHTML = "Message: Correct! The answer is\"" + word + "\"!";
+
+    } else {
+      document.getElementById("message").innerHTML = "Message: Wrong answer \"" + word + "\", guess again!";
+    }
+    empty_blank();
+    if (result) {
+      gameLogic.newRound();
+      if (gameLogic.endGame) {
+        document.getElementById("end_game_message").innerHTML = "Message: Congrats!! All words are correctly guessed!!";
+        return;
+      }
+      turn = !turn;
+      console.log("change turn");
+    }
+  }
+
+  export function get_answer(): string {
+    return gameLogic.answer;
+  }
+
+  export function get_answer_nums(): number[] {
+    return gameLogic.answer_nums;
+  }
+
+  function empty_blank() {
+    let num: number = gameLogic.answer_nums.length - 1;
+    while (num >= 0) {
+      let parent_id: string = "u" + num;
+      let img: HTMLImageElement = <HTMLImageElement>document.getElementById(parent_id).childNodes[0];
+      imgClicked(img);
+      num = num - 1;
+    }
+  }
+  export let isInstructionsShowing = false;
+  export function toggleInstructions() {
+    isInstructionsShowing = !isInstructionsShowing;
+    if (isInstructionsShowing) document.getElementById("instruction_button").innerHTML = "Back";
+    else document.getElementById("instruction_button").innerHTML = "Help";
+  }
+
+  // update UI part
   export let currentUpdateUI: IUpdateUI = null;
-  export let didMakeMove: boolean = false; // You can only make one move per updateUI
-  export let animationEndedTimeout: ng.IPromise<any> = null;
   export let state: IState = null;
-  // For community games.
-  export let proposals: number[][] = null;
-  export let yourPlayerInfo: IPlayerInfo = null;
 
   export function init() {
     registerServiceWorker();
     translate.setTranslations(getTranslations());
-    translate.setLanguage('en');
-    resizeGameAreaService.setWidthToHeight(1);
+    resizeGameAreaService.setWidthToHeight(0.5);
     moveService.setGame({
       minNumberOfPlayers: 2,
       maxNumberOfPlayers: 2,
       checkMoveOk: gameLogic.checkMoveOk,
       updateUI: updateUI,
-      communityUI: communityUI,
+      // communityUI: communityUI,
       getStateForOgImage: null,
     });
   }
@@ -44,9 +125,9 @@ module game {
     if (!window.applicationCache && 'serviceWorker' in navigator) {
       let n: any = navigator;
       log.log('Calling serviceWorker.register');
-      n.serviceWorker.register('service-worker.js').then(function(registration: any) {
-        log.log('ServiceWorker registration successful with scope: ',    registration.scope);
-      }).catch(function(err: any) {
+      n.serviceWorker.register('service-worker.js').then(function (registration: any) {
+        log.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }).catch(function (err: any) {
         log.log('ServiceWorker registration failed: ', err);
       });
     }
@@ -56,107 +137,17 @@ module game {
     return {};
   }
 
-  export function communityUI(communityUI: ICommunityUI) {
-    log.info("Game got communityUI:", communityUI);
-    // If only proposals changed, then do NOT call updateUI. Then update proposals.
-    let nextUpdateUI: IUpdateUI = {
-        playersInfo: [],
-        playMode: communityUI.yourPlayerIndex,
-        move: communityUI.move,
-        numberOfPlayers: communityUI.numberOfPlayers,
-        stateBeforeMove: communityUI.stateBeforeMove,
-        turnIndexBeforeMove: communityUI.turnIndexBeforeMove,
-        yourPlayerIndex: communityUI.yourPlayerIndex,
-      };
-    if (angular.equals(yourPlayerInfo, communityUI.yourPlayerInfo) &&
-        currentUpdateUI && angular.equals(currentUpdateUI, nextUpdateUI)) {
-      // We're not calling updateUI to avoid disrupting the player if he's in the middle of a move.
-    } else {
-      // Things changed, so call updateUI.
-      updateUI(nextUpdateUI);
-    }
-    // This must be after calling updateUI, because we nullify things there (like playerIdToProposal&proposals&etc)
-    yourPlayerInfo = communityUI.yourPlayerInfo;
-    let playerIdToProposal = communityUI.playerIdToProposal; 
-    didMakeMove = !!playerIdToProposal[communityUI.yourPlayerInfo.playerId];
-    proposals = [];
-    for (let i = 0; i < gameLogic.ROWS; i++) {
-      proposals[i] = [];
-      for (let j = 0; j < gameLogic.COLS; j++) {
-        proposals[i][j] = 0;
-      }
-    }
-    for (let playerId in playerIdToProposal) {
-      let proposal = playerIdToProposal[playerId];
-      let delta = proposal.data;
-      proposals[delta.row][delta.col]++;
-    }
-  }
-  export function isProposal(row: number, col: number) {
-    return proposals && proposals[row][col] > 0;
-  } 
-  export function isProposal1(row: number, col: number) {
-    return proposals && proposals[row][col] == 1;
-  } 
-  export function isProposal2(row: number, col: number) {
-    return proposals && proposals[row][col] == 2;
-  }
-  
   export function updateUI(params: IUpdateUI): void {
     log.info("Game got updateUI:", params);
-    didMakeMove = false; // Only one move per updateUI
     currentUpdateUI = params;
-    clearAnimationTimeout();
     state = params.move.stateAfterMove;
     if (isFirstMove()) {
       state = gameLogic.getInitialState();
     }
-    // We calculate the AI move only after the animation finishes,
-    // because if we call aiService now
-    // then the animation will be paused until the javascript finishes.
-    animationEndedTimeout = $timeout(animationEndedCallback, 500);
-  }
-
-  function animationEndedCallback() {
-    log.info("Animation ended");
-    maybeSendComputerMove();
-  }
-
-  function clearAnimationTimeout() {
-    if (animationEndedTimeout) {
-      $timeout.cancel(animationEndedTimeout);
-      animationEndedTimeout = null;
-    }
-  }
-
-  function maybeSendComputerMove() {
-    if (!isComputerTurn()) return;
-    let move = aiService.findComputerMove(currentUpdateUI.move);
-    log.info("Computer move: ", move);
-    makeMove(move);
   }
 
   function makeMove(move: IMove) {
-    if (didMakeMove) { // Only one move per updateUI
-      return;
-    }
-    didMakeMove = true;
-    
-    if (!proposals) {
-      moveService.makeMove(move);
-    } else {
-      let delta = move.stateAfterMove.delta;
-      let myProposal:IProposal = {
-        data: delta,
-        chatDescription: '' + (delta.row + 1) + 'x' + (delta.col + 1),
-        playerInfo: yourPlayerInfo,
-      };
-      // Decide whether we make a move or not (if we have 2 other proposals supporting the same thing).
-      if (proposals[delta.row][delta.col] < 2) {
-        move = null;
-      }
-      moveService.communityMove(myProposal, move);
-    }
+    moveService.makeMove(move);
   }
 
   function isFirstMove() {
@@ -167,63 +158,9 @@ module game {
     return currentUpdateUI.yourPlayerIndex;
   }
 
-  function isComputer() {
-    let playerInfo = currentUpdateUI.playersInfo[currentUpdateUI.yourPlayerIndex];
-    // In community games, playersInfo is [].
-    return playerInfo && playerInfo.playerId === '';
-  }
-
-  function isComputerTurn() {
-    return isMyTurn() && isComputer();
-  }
-
-  function isHumanTurn() {
-    return isMyTurn() && !isComputer();
-  }
-
-  function isMyTurn() {
-    return !didMakeMove && // you can only make one move per updateUI.
-      currentUpdateUI.move.turnIndexAfterMove >= 0 && // game is ongoing
+  export function isMyTurn() {
+    return currentUpdateUI.move.turnIndexAfterMove >= 0 && // game is ongoing
       currentUpdateUI.yourPlayerIndex === currentUpdateUI.move.turnIndexAfterMove; // it's my turn
-  }
-
-  export function cellClicked(row: number, col: number): void {
-    log.info("Clicked on cell:", row, col);
-    if (!isHumanTurn()) return;
-    if (window.location.search === '?throwException') { // to test encoding a stack trace with sourcemap
-      throw new Error("Throwing the error because URL has '?throwException'");
-    }
-    let nextMove: IMove = null;
-    try {
-      nextMove = gameLogic.createMove(
-          state, row, col, currentUpdateUI.move.turnIndexAfterMove);
-    } catch (e) {
-      log.info(["Cell is already full in position:", row, col]);
-      return;
-    }
-    // Move is legal, make it!
-    makeMove(nextMove);
-  }
-
-  export function shouldShowImage(row: number, col: number): boolean {
-    return state.board[row][col] !== "" || isProposal(row, col);
-  }
-
-  function isPiece(row: number, col: number, turnIndex: number, pieceKind: string): boolean {
-    return state.board[row][col] === pieceKind || (isProposal(row, col) && currentUpdateUI.move.turnIndexAfterMove == turnIndex);
-  }
-  
-  export function isPieceX(row: number, col: number): boolean {
-    return isPiece(row, col, 0, 'X');
-  }
-
-  export function isPieceO(row: number, col: number): boolean {
-    return isPiece(row, col, 1, 'O');
-  }
-
-  export function shouldSlowlyAppear(row: number, col: number): boolean {
-    return state.delta &&
-        state.delta.row === row && state.delta.col === col;
   }
 }
 
