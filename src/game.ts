@@ -29,6 +29,7 @@ module game {
   export var ctx;
   export let isRecording = true;
   export let isMouseDown = false;
+  export let isPlaying = false;
   export let lastMouseX = -1;
   export let lastMouseY = -1;
 
@@ -51,9 +52,10 @@ module game {
     let canvasY = canvas.offsetTop;
     let x = Math.floor(event.clientX - canvasX);
     let y = Math.floor(event.clientY - canvasY);
-    currentPoint = createPoint(x, y, currentDrawType);
-    drawPoint(currentPoint);
+
     if (isRecording) {
+      currentPoint = createPoint(x, y, currentDrawType);
+      drawPoint(currentPoint);
       line.points.push(currentPoint);
     }
   }
@@ -65,9 +67,10 @@ module game {
       let canvasY = canvas.offsetTop;
       let x = Math.floor(event.clientX - canvasX);
       let y = Math.floor(event.clientY - canvasY);
-      currentPoint = createPoint(x, y, currentDrawType);
-      drawPoint(currentPoint);
+      
       if (isRecording) {
+        currentPoint = createPoint(x, y, currentDrawType);
+      drawPoint(currentPoint);
         line.points.push(currentPoint);
       }
     }
@@ -114,7 +117,9 @@ module game {
   }
 
   export function schedulePlay() {
-    clear();
+document.getElementById("Play").style.display = "none";
+  clear();
+    isRecording = false;
     let startTime = line.points[0].timestamp;
     for (let i in line.points) {
       let temp: Point = line.points[i];
@@ -122,6 +127,8 @@ module game {
         drawPoint(temp);
       }, temp.timestamp - startTime);
     }
+    window.setTimeout(function() {document.getElementById("Play").style.display = "inline-block";},line.points[line.points.length - 1].timestamp - startTime);
+    
   }
 
   export function setColor(colorVal: string) {
@@ -160,7 +167,7 @@ module game {
   export function drawFinish() {
     console.log("click submit");
     isDrawFinished = true;
-    
+
     isRecording = false;
     let board: Board = line;
     let nextMove: IMove = gameLogic.createMove(
@@ -199,12 +206,13 @@ module game {
     for (let num in gameLogic.answer_nums) {
       let parent_id: string = "u" + num;
       let ele: HTMLImageElement = <HTMLImageElement>document.getElementById(parent_id).childNodes[0];
-      let letter: string = ele.src.substring(ele.src.lastIndexOf("/")).substring(8,9);
+      let letter: string = ele.src.substring(ele.src.lastIndexOf("/")).substring(8, 9);
       word = word + letter;
     }
     return word;
   }
   export function updateGuesserUI() {
+    clear();
     isDrawFinished = false;
     let word: string = get_word();
     let result: boolean = gameLogic.judge(word);

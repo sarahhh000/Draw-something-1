@@ -61,7 +61,7 @@
         <div id="message"></div>
         <div id="end_game_message"></div>
 
-        <button ng-if="game.turn" ng-click="game.schedulePlay()" id="submit">Play</button>
+        <button ng-show="game.turn" ng-click="game.schedulePlay()" id="Play">Play</button>
 
         <div id="canvasArea">
             <div ng-show="!game.isDrawFinished" id="colorArea" class="area">

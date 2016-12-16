@@ -15,6 +15,7 @@ var game;
     game.color = "black";
     game.isRecording = true;
     game.isMouseDown = false;
+    game.isPlaying = false;
     game.lastMouseX = -1;
     game.lastMouseY = -1;
     game.line = { points: new Array() };
@@ -32,9 +33,9 @@ var game;
         var canvasY = game.canvas.offsetTop;
         var x = Math.floor(event.clientX - canvasX);
         var y = Math.floor(event.clientY - canvasY);
-        game.currentPoint = createPoint(x, y, game.currentDrawType);
-        drawPoint(game.currentPoint);
         if (game.isRecording) {
+            game.currentPoint = createPoint(x, y, game.currentDrawType);
+            drawPoint(game.currentPoint);
             game.line.points.push(game.currentPoint);
         }
     }
@@ -46,9 +47,9 @@ var game;
             var canvasY = game.canvas.offsetTop;
             var x = Math.floor(event.clientX - canvasX);
             var y = Math.floor(event.clientY - canvasY);
-            game.currentPoint = createPoint(x, y, game.currentDrawType);
-            drawPoint(game.currentPoint);
             if (game.isRecording) {
+                game.currentPoint = createPoint(x, y, game.currentDrawType);
+                drawPoint(game.currentPoint);
                 game.line.points.push(game.currentPoint);
             }
         }
@@ -94,7 +95,9 @@ var game;
     }
     game.playRecording = playRecording;
     function schedulePlay() {
+        document.getElementById("Play").style.display = "none";
         clear();
+        game.isRecording = false;
         var startTime = game.line.points[0].timestamp;
         var _loop_1 = function(i) {
             var temp = game.line.points[i];
@@ -105,6 +108,7 @@ var game;
         for (var i in game.line.points) {
             _loop_1(i);
         }
+        window.setTimeout(function () { document.getElementById("Play").style.display = "inline-block"; }, game.line.points[game.line.points.length - 1].timestamp - startTime);
     }
     game.schedulePlay = schedulePlay;
     function setColor(colorVal) {
@@ -189,6 +193,7 @@ var game;
         return word;
     }
     function updateGuesserUI() {
+        clear();
         game.isDrawFinished = false;
         var word = get_word();
         var result = gameLogic.judge(word);
