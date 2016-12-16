@@ -181,7 +181,7 @@ var game;
         for (var num in gameLogic.answer_nums) {
             var parent_id = "u" + num;
             var ele = document.getElementById(parent_id).childNodes[0];
-            var letter = ele.src.substring(83, 84);
+            var letter = ele.src.substring(73, 74);
             word = word + letter;
         }
         return word;

@@ -199,7 +199,7 @@ module game {
     for (let num in gameLogic.answer_nums) {
       let parent_id: string = "u" + num;
       let ele: HTMLImageElement = <HTMLImageElement>document.getElementById(parent_id).childNodes[0];
-      let letter: string = ele.src.substring(83, 84);
+      let letter: string = ele.src.substring(73, 74);
       word = word + letter;
     }
     return word;

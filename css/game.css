@@ -135,16 +135,6 @@ canvas:active, canvas:focus { cursor: crosshair; }
   width: 24px;
 }
 
-#draw_button {
-  top: 0px;
-  left: 0px;
-  position: absolute;
-  height: 18px;
-  margin: 0px auto;
-  background-color:skyblue;
-  border: transparent;
-}
-
 #instruction_button {
   top: 0px;
   right: 0px;
