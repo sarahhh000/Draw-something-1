@@ -63,15 +63,12 @@ var game;
         var y = point.y;
         switch (point.type) {
             case "onMouseDown":
-                console.log("function drawpoint-moveto");
                 game.ctx.beginPath();
                 game.ctx.moveTo(x, y);
-                console.log(x, y);
                 game.ctx.strokeStyle = point.colorStyle;
                 game.ctx.lineWidth = point.sizeStyle;
                 break;
             case "onMouseMove":
-                console.log("function drawpoint-lineTo");
                 game.ctx.lineTo(x, y);
                 game.ctx.stroke();
                 break;
@@ -126,7 +123,6 @@ var game;
     function clear() {
         game.canvas = document.getElementById("canvas");
         game.ctx = game.canvas.getContext("2d");
-        console.log("clear canvas");
         game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.width);
     }
     game.clear = clear;
@@ -142,7 +138,7 @@ var game;
     // turn: true: guess, false: draw
     game.turn = true;
     function drawFinish() {
-        console.log("click submit");
+        document.getElementById("message").innerHTML = "";
         game.isDrawing = false;
         var board = game.line;
         var nextMove = gameLogic.createMove(game.state, board, game.currentUpdateUI.move.turnIndexAfterMove);
@@ -193,7 +189,6 @@ var game;
         var word = get_word();
         var result = gameLogic.judge(word);
         if (result) {
-            console.log("win");
             for (var i in game.list) {
                 window.clearTimeout(game.list[i]);
             }
@@ -212,7 +207,6 @@ var game;
                 return;
             }
             game.isDrawing = !game.isDrawing;
-            console.log("change turn");
         }
     }
     game.updateGuesserUI = updateGuesserUI;

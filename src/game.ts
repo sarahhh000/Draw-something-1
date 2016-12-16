@@ -84,15 +84,12 @@ module game {
     let y = point.y;
     switch (point.type) {
       case "onMouseDown":
-        console.log("function drawpoint-moveto")
         ctx.beginPath();
         ctx.moveTo(x, y);
-        console.log(x, y);
         ctx.strokeStyle = point.colorStyle;
         ctx.lineWidth = point.sizeStyle;
         break;
       case "onMouseMove":
-        console.log("function drawpoint-lineTo")
         ctx.lineTo(x, y);
         ctx.stroke();
         break;
@@ -144,7 +141,6 @@ module game {
   export function clear() {
     canvas = <HTMLCanvasElement>document.getElementById("canvas");
     ctx = canvas.getContext("2d");
-    console.log("clear canvas");
     ctx.clearRect(0, 0, canvas.width, canvas.width);
   }
 
@@ -161,7 +157,7 @@ module game {
   export let turn: boolean = true;
 
   export function drawFinish() {
-    console.log("click submit");
+    document.getElementById("message").innerHTML = "";
     isDrawing = false;
     let board: Board = line;
     let nextMove: IMove = gameLogic.createMove(
@@ -209,7 +205,6 @@ module game {
     let word: string = get_word();
     let result: boolean = gameLogic.judge(word);
     if (result) {
-      console.log("win");
       for (let i in list) {
         window.clearTimeout(list[i]);
       }
@@ -227,7 +222,6 @@ module game {
         return;
       }
       isDrawing = !isDrawing;
-      console.log("change turn");
     }
   }
 
