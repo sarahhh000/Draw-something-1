@@ -115,7 +115,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
   top: 0px;
   right: 0px;
   position: absolute;
-  height: 18px;
+  height: 43px;
   margin: 0px auto;
   background-color:skyblue;
   border: transparent;
@@ -126,7 +126,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
   padding: 20px;
   background-color: rgb(220,240,255);
   font-size: 10px;
-  top: 25px;
+  top: 45px;
   right:0;
   bottom:0;
   left:0;
@@ -142,14 +142,14 @@ canvas:active, canvas:focus { cursor: crosshair; }
 
 #message {
   margin-top: 10px;
-  font-size: 10px;
+  font-size: 16px;
   text-align: center;
   background-color: rgb(220,240,255);
 }
 
 #end_game_message {
   margin-top: 10px;
-  font-size: 10px;
+  font-size: 16px;
   text-align: center;
   background-color: red;
 }
@@ -166,25 +166,31 @@ canvas:active, canvas:focus { cursor: crosshair; }
 }
 
 #title {
+  padding: 10px;
+  font-size: 20px;
   margin-bottom: 10px;
   text-align: center;
   background-color:  rgb(220,240,255);
 }
 
 #submit {
+  height: 30px;
   right: 0;
-  top: 30px;
+  top: 50px;
   position: absolute;
   background-color:skyblue;
   border: transparent;
+  border-radius: 10px;
 }
 
 #Play {
+  height: 30px;
   right: 0;
-  top: 30px;
+  top: 50px;
   position: absolute;
   background-color:skyblue;
   border: transparent;
+  border-radius: 10px;
 }
 
 .area {
@@ -199,12 +205,12 @@ canvas:active, canvas:focus { cursor: crosshair; }
 }
 
 .colorOptions {
-  margin-left: 3%;
+  margin-left: 5%;
   cursor: pointer;
   display: inline-block;
   position: relative;
   transform: translateY(33%);
-	width: 9.2%;
+	width: 10%;
 	height: 66%;
   border-radius: 50%;
 }
@@ -219,7 +225,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
 	border-color: #cccccc;
   border-radius: 50%;
   background:white;
-  margin-left: 8%;
+  margin-left: 10%;
 }
 	
 .selectedColor {

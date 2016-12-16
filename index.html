@@ -28,7 +28,7 @@
     <div id="gameArea">
         <div class="header">
             <div id="title">Draw Something - Level {{game.getLevel()}}</div>
-            <button ng-click="game.toggleInstructions()" id="instruction_button">Help</button>
+            <button ng-click="game.toggleInstructions()" id="instruction_button">&nbsp;&nbsp;Help&nbsp;&nbsp;</button>
         </div>
         
         <div ng-show="game.isInstructionsShowing" id="instructions">
@@ -52,7 +52,7 @@
             </div>
 
         <div id="answerArea">
-            <div ng-show="game.isDrawing">
+            <div ng-show="game.isDrawing" style="font-size: 20px">
                 Word: {{game.get_answer()}}
             </div>
 
@@ -62,10 +62,10 @@
         </div>
 
         <div ng-show="game.isDrawing && !game.isInstructionsShowing">
-                <button ng-click="game.drawFinish()" id="submit">Submit</button>
+                <button ng-click="game.drawFinish()" id="submit">&nbsp;&nbsp;Submit&nbsp;&nbsp;</button>
         </div>
 
-        <button ng-show="!game.isDrawing" ng-click="game.schedulePlay()" id="Play">Play</button>
+        <button ng-show="!game.isDrawing" ng-click="game.schedulePlay()" id="Play">&nbsp;&nbsp;&nbsp;&nbsp;Play&nbsp;&nbsp;&nbsp;&nbsp;</button>
 
         <div id="message"></div>
         <div id="end_game_message"></div>
