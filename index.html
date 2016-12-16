@@ -32,20 +32,23 @@
         </div>
         
         <div ng-show="game.isInstructionsShowing" id="instructions">
-                <h3 style="color: blue">Instructions</h3>
-                <p>The goal of Draw Something Game is to let the guess user correctly guess the given word from the drawing
-                    of the draw user.
+            <h3 style="color: blue">Instructions</h3>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;The goal of Draw Something Game is to guess all words correctly from the users drawings.
+                    Two players will exchange roles as guess user and draw user each round. There are currently 30 words in the game.
                 </p>
-                <h4 style="color: purple">Draw Uer Instruction:</h4>
+            <h4 style="color: purple">Draw Uer Instruction:</h4>
                 <li>Draw the given word in canvas area</li>
-                <li>You could choose color and strock thickness</li>
-                <h4 style="color: green">Guess Uer Instruction:</h4>
-                <li>According to the drawing, please guess the word<br>
-                    <li>Put letters into the following blanks<br>
-                        <li>Blank number is exactly the length of answer word<br>
-                            <li>Click letter under the canvas area to put it into blank<br>
-                                <li>Click the last filled in letter in blank to put letter back<br>
-                                    <li>If guess word is wrong, all blanks will be vacated<br>
+                <li>Choose color and strock thickness by clicking</li>
+                <li>The first white color stroke could be used as eraser</li>
+                <li>Click the "Submit" button in the up right corner when you finish</li>
+            <h4 style="color: green">Guess Uer Instruction:</h4>
+                <li>Click "Play" button in up right corner to play the drawing</li>
+                <li>According to the drawing, please guess the word by putting letters into blanks<br>
+                <li>Blank number is exactly the length of answer word<br>
+                <li>Click letter below canvas area to put it into blank<br>
+                <li>Click the last filled in letter in blank to put letter back<br>
+                <li>If guessed word is wrong, all blanks will be vacated automatically<br>
+                <li>After correctly guessing a word, the page will automatically go to the draw page.</li>
             </div>
 
         <div id="answerArea">

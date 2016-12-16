@@ -125,7 +125,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
   z-index: 1;
   padding: 20px;
   background-color: rgb(220,240,255);
-  font-size: 12px;
+  font-size: 10px;
   top: 25px;
   right:0;
   bottom:0;
