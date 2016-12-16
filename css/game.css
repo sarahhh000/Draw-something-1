@@ -75,28 +75,11 @@ body {
   user-select: none;
   background-image: none;
 }
-#selectArea button {
-  float: left;
-  background-color: grey;
-  color: white;
-  margin: 0 2.5% 2.5% 2.5%;
-  padding: 5px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  -webkit-appearance: button;
-  overflow: visible;
-  border-radius: 6px;
-  white-space: nowrap;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  border: 1px solid transparent;
-  border-radius: 4px;
-}
 
 #colorArea button {
   float: left;
-  margin: 0 2% 2% 2%;;
+  /*margin: 0 2% 2% 2%;*/
+  margin : 0;
   padding: 5px;
   height: 40px;
   background-size: cover;
@@ -110,13 +93,6 @@ body {
   cursor: pointer;
   border: 1px solid;
   border-radius: 4px;
-}
-
-canvas {
-  margin: 10px auto;
-  border: 2px solid #ccc;
-  cursor: crosshair;
-  display: block;
 }
 
 canvas:active, canvas:focus { cursor: crosshair; }
@@ -146,6 +122,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
 }
 
 #instructions {
+  z-index: 1;
   padding: 20px;
   background-color: rgb(220,240,255);
   font-size: 12px;
@@ -189,50 +166,60 @@ canvas:active, canvas:focus { cursor: crosshair; }
 }
 
 #title {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
   background-color:  rgb(220,240,255);
 }
 
 #submit {
   right: 0;
+  top: 30px;
   position: absolute;
-  margin: 0px auto;
   background-color:skyblue;
   border: transparent;
 }
 
-li {
-  display: inline-block;
-  cursor: pointer;
-  margin-top: 5px;
+#Play {
+  right: 0;
+  top: 30px;
+  position: absolute;
+  background-color:skyblue;
+  border: transparent;
 }
 
 .area {
-  background: grey;
-  height: 45px;
+  background: lightgrey;
+  height: 40px;
   width: 100%;
   border-radius: 5px;
 }
 
 #colorArea {
-  margin-top: 2%;
+  width: 100%;
 }
 
 .colorOptions {
-	width: 30px;
-	height: 30px;
-  border-radius: 25%;
+  margin-left: 3%;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transform: translateY(33%);
+	width: 9.2%;
+	height: 66%;
+  border-radius: 50%;
 }
 
 .sizeOptions {
+  cursor: pointer;
+  display: inline-block;
   position: relative;
-  top: 50%;
   transform: translateY(33%);
 	border-style: solid;
-	margin-top: 5px;
+	margin-top: 3px;
 	border-color: #cccccc;
   border-radius: 50%;
+  background:white;
+  margin-left: 8%;
 }
 	
 .selectedColor {
@@ -244,7 +231,7 @@ li {
 
 #canvas {
   display: block;
-  margin: auto;
+  margin: 10px auto;
 	border:2px;
 	border-color: black;
 	border-style:solid;

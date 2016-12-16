@@ -22,7 +22,7 @@ module game {
   export let currentCategory = "Animal";
   export let levels = ["easy", "medium", "hard"];
   export let categories = ["company", "logo", "fruit", "ct4", "ct5", "ct6", "ct7", "ct8", "ct9"];
-  export let colors = ["black", "white", "red", "orange", "yellow", "blue", "green", "violet"];
+  export let colors = ["white", "red", "orange", "yellow", "blue", "green", "violet", "black"];
   export let sizes = [1, 2, 3, 5, 8, 10, 12, 15];
   export let buttons = { "recordBtn": "Record", "playBtn": "Play", "pauseBtn": "Pause", "clearBtn": "Clear" };
   export let currentWord = "someWord";

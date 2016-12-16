@@ -11,7 +11,7 @@ var game;
     game.currentCategory = "Animal";
     game.levels = ["easy", "medium", "hard"];
     game.categories = ["company", "logo", "fruit", "ct4", "ct5", "ct6", "ct7", "ct8", "ct9"];
-    game.colors = ["black", "white", "red", "orange", "yellow", "blue", "green", "violet"];
+    game.colors = ["white", "red", "orange", "yellow", "blue", "green", "violet", "black"];
     game.sizes = [1, 2, 3, 5, 8, 10, 12, 15];
     game.buttons = { "recordBtn": "Record", "playBtn": "Play", "pauseBtn": "Pause", "clearBtn": "Clear" };
     game.currentWord = "someWord";
