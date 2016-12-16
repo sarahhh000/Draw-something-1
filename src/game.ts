@@ -31,8 +31,6 @@ module game {
   export let isMouseDown = false;
   export let lastMouseX = -1;
   export let lastMouseY = -1;
-  export let timeinterval:number;
-
 
   export let currentDrawType: string;
   export let currentPoint: Point;
@@ -116,11 +114,13 @@ module game {
   }
 
   export function schedulePlay() {
+    clear();
+    let startTime = line.points[0].timestamp;
     for (let i in line.points) {
       let temp: Point = line.points[i];
       window.setTimeout(function () {
         drawPoint(temp);
-      }, temp.timestamp - timeinterval);
+      }, temp.timestamp - startTime);
     }
   }
 
@@ -258,7 +258,7 @@ module game {
   export function init() {
     registerServiceWorker();
     translate.setTranslations(getTranslations());
-    // resizeGameAreaService.setWidthToHeight(1);
+    // resizeGameAreaService.setWidthToHeight(0.7);
     moveService.setGame({
       minNumberOfPlayers: 2,
       maxNumberOfPlayers: 2,

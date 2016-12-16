@@ -94,11 +94,13 @@ var game;
     }
     game.playRecording = playRecording;
     function schedulePlay() {
+        clear();
+        var startTime = game.line.points[0].timestamp;
         var _loop_1 = function(i) {
             var temp = game.line.points[i];
             window.setTimeout(function () {
                 drawPoint(temp);
-            }, temp.timestamp - game.timeinterval);
+            }, temp.timestamp - startTime);
         };
         for (var i in game.line.points) {
             _loop_1(i);
@@ -241,7 +243,7 @@ var game;
     function init() {
         registerServiceWorker();
         translate.setTranslations(getTranslations());
-        // resizeGameAreaService.setWidthToHeight(1);
+        // resizeGameAreaService.setWidthToHeight(0.7);
         moveService.setGame({
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,
