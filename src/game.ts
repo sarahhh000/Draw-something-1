@@ -118,14 +118,14 @@ module game {
       drawPoint(line.points[i]);
     }
   }
-
+  export var list = [];
   export function schedulePlay() {
     document.getElementById("Play").style.display = "none";
     clear();
     let startTime = line.points[0].timestamp;
     for (let i in line.points) {
       let temp: Point = line.points[i];
-      window.setTimeout(function () {
+      list [i] = window.setTimeout(function () {
         drawPoint(temp);
       }, temp.timestamp - startTime);
     }
@@ -210,6 +210,9 @@ module game {
     let result: boolean = gameLogic.judge(word);
     if (result) {
       console.log("win");
+      for (let i in list) {
+        window.clearTimeout(list[i]);
+      }
       document.getElementById("message").innerHTML = "Message: Correct! The answer is\"" + word + "\"!";
       line.points = [];
       clear();

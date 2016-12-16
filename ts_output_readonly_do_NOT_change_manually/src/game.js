@@ -97,13 +97,14 @@ var game;
         }
     }
     game.playRecording = playRecording;
+    game.list = [];
     function schedulePlay() {
         document.getElementById("Play").style.display = "none";
         clear();
         var startTime = game.line.points[0].timestamp;
         var _loop_1 = function(i) {
             var temp = game.line.points[i];
-            window.setTimeout(function () {
+            game.list[i] = window.setTimeout(function () {
                 drawPoint(temp);
             }, temp.timestamp - startTime);
         };
@@ -193,6 +194,9 @@ var game;
         var result = gameLogic.judge(word);
         if (result) {
             console.log("win");
+            for (var i in game.list) {
+                window.clearTimeout(game.list[i]);
+            }
             document.getElementById("message").innerHTML = "Message: Correct! The answer is\"" + word + "\"!";
             game.line.points = [];
             clear();
