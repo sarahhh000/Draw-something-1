@@ -13,10 +13,12 @@ module game {
   // turn: true: guess, false: draw
   export let turn: boolean = true;
 
-  export function drawFinish(canvas: ICanvas) {
+// ......................................................................
+  export function drawFinish() {
     console.log("click submit");
+    let board: Board = [];
     let nextMove: IMove = gameLogic.createMove(
-          state, canvas, currentUpdateUI.move.turnIndexAfterMove);
+          state, board, currentUpdateUI.move.turnIndexAfterMove);
     makeMove(nextMove);
   }
 

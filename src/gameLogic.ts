@@ -1,15 +1,12 @@
 //should be canvas
-type Board = string[][];
+type Board = string[];
+
 interface IState {
   board: Board;
-}
-
-interface ICanvas {
-  
+  answer: string;
 }
 
 module gameLogic {
-
   export let endGame: boolean = false;
   export let level = 0;
   let answer_array: string[] = [
@@ -56,24 +53,25 @@ module gameLogic {
   }
 
   export function getInitialState(): IState {
-    return { board: getInitialBoard() };
+    return { board: getInitialBoard(), answer: answer};
   }
 
   export function createMove(
-    stateBeforeMove: IState, canvas: ICanvas, turnIndexBeforeMove: number): IMove {
+    stateBeforeMove: IState, board: Board, turnIndexBeforeMove: number): IMove {
     if (!stateBeforeMove) {
       stateBeforeMove = getInitialState();
     }
-    let board: Board = stateBeforeMove.board;
-    let boardAfterMove = angular.copy(board);
-    // boardAfterMove[row][col] = turnIndexBeforeMove === 0 ? 'X' : 'O';
     let endMatchScores: number[];
     let turnIndexAfterMove: number;
-    if (endGame) {
+    if (!endGame) {
       turnIndexAfterMove = 1 - turnIndexBeforeMove;
       endMatchScores = null;
+    } else {
+      turnIndexAfterMove = -1;
+      endMatchScores = null;
     }
-    let stateAfterMove: IState = { board: boardAfterMove };
+    let boardAfterMove = angular.copy(board);
+    let stateAfterMove: IState = { board: boardAfterMove, answer: answer };
     return { endMatchScores: endMatchScores, turnIndexAfterMove: turnIndexAfterMove, stateAfterMove: stateAfterMove };
   }
 
@@ -85,19 +83,6 @@ module gameLogic {
   }
 
   export function checkMoveOk(stateTransition: IStateTransition): void {
-    // We can assume that turnIndexBeforeMove and stateBeforeMove are legal, and we need
-    // to verify that the move is OK.
-    let turnIndexBeforeMove = stateTransition.turnIndexBeforeMove;
-    let stateBeforeMove: IState = stateTransition.stateBeforeMove;
-    let move: IMove = stateTransition.move;
-    if (!stateBeforeMove && turnIndexBeforeMove === 0 &&
-      angular.equals(createInitialMove(), move)) {
-      return;
-    }
-    let expectedMove = createMove(stateBeforeMove, turnIndexBeforeMove);
-    if (!angular.equals(move, expectedMove)) {
-      throw new Error("Expected move=" + angular.toJson(expectedMove, true) +
-        ", but got stateTransition=" + angular.toJson(stateTransition, true))
-    }
+    
   }
 }

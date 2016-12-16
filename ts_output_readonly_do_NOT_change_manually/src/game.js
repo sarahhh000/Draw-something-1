@@ -3,9 +3,11 @@ var game;
 (function (game) {
     // turn: true: guess, false: draw
     game.turn = true;
-    function drawFinish(canvas) {
+    // ......................................................................
+    function drawFinish() {
         console.log("click submit");
-        var nextMove = gameLogic.createMove(game.state, canvas, game.currentUpdateUI.move.turnIndexAfterMove);
+        var board = [];
+        var nextMove = gameLogic.createMove(game.state, board, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
     }
     game.drawFinish = drawFinish;
