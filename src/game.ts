@@ -206,14 +206,13 @@ module game {
     return word;
   }
   export function updateGuesserUI() {
-    clear();
-    line.points = [];
     let word: string = get_word();
     let result: boolean = gameLogic.judge(word);
     if (result) {
       console.log("win");
       document.getElementById("message").innerHTML = "Message: Correct! The answer is\"" + word + "\"!";
-
+      line.points = [];
+      clear();
     } else {
       document.getElementById("message").innerHTML = "Message: Wrong answer \"" + word + "\", guess again!";
     }

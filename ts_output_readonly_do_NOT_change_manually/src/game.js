@@ -189,13 +189,13 @@ var game;
         return word;
     }
     function updateGuesserUI() {
-        clear();
-        game.line.points = [];
         var word = get_word();
         var result = gameLogic.judge(word);
         if (result) {
             console.log("win");
             document.getElementById("message").innerHTML = "Message: Correct! The answer is\"" + word + "\"!";
+            game.line.points = [];
+            clear();
         }
         else {
             document.getElementById("message").innerHTML = "Message: Wrong answer \"" + word + "\", guess again!";
