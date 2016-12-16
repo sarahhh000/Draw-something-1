@@ -11,6 +11,10 @@ interface Translations {
 
 module game {
 
+  export function getLevel() {
+    return gameLogic.level;
+  }
+
   export let hasLvCt = false;
   export let isDrawFinished = false;
 

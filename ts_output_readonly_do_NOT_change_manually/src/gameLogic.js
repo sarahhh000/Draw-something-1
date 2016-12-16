@@ -3,7 +3,11 @@ var gameLogic;
     gameLogic.endGame = false;
     gameLogic.level = 0;
     var answer_array = [
-        "DOG", "LIP",
+        "DOG", "LIP", "CAR", "ANT", "TOE", "BED",
+        "GIFT", "LOVE", "FISH", "PEAR", "COLA", "HAIR", "DESK",
+        "BIRD", "PLUG", "SNOW", "BIKE", "SALE", "WORD", "BATH",
+        "FRIES", "MOUSE", "DANCE", "JEANS", "PIANO", "PHONE",
+        "SHADOW", "HOLIDAY", "KETCHUP", "BIRTHDAY"
     ];
     gameLogic.answer = answer_array[gameLogic.level];
     // export let answer_nums: Array<number> = Array.from(answer.length.keys());
