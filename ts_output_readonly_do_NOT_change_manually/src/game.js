@@ -6,7 +6,7 @@ var game;
     }
     game.getLevel = getLevel;
     game.hasLvCt = false;
-    game.isDrawFinished = false;
+    game.isDrawing = true;
     game.currentLevel = "Easy";
     game.currentCategory = "Animal";
     game.levels = ["easy", "medium", "hard"];
@@ -17,7 +17,6 @@ var game;
     game.currentWord = "someWord";
     game.size = 1;
     game.color = "black";
-    game.isRecording = true;
     game.isMouseDown = false;
     game.isPlaying = false;
     game.lastMouseX = -1;
@@ -37,7 +36,7 @@ var game;
         var canvasY = game.canvas.offsetTop;
         var x = Math.floor(event.clientX - canvasX);
         var y = Math.floor(event.clientY - canvasY);
-        if (game.isRecording) {
+        if (game.isDrawing) {
             game.currentPoint = createPoint(x, y, game.currentDrawType);
             drawPoint(game.currentPoint);
             game.line.points.push(game.currentPoint);
@@ -51,7 +50,7 @@ var game;
             var canvasY = game.canvas.offsetTop;
             var x = Math.floor(event.clientX - canvasX);
             var y = Math.floor(event.clientY - canvasY);
-            if (game.isRecording) {
+            if (game.isDrawing) {
                 game.currentPoint = createPoint(x, y, game.currentDrawType);
                 drawPoint(game.currentPoint);
                 game.line.points.push(game.currentPoint);
@@ -101,7 +100,6 @@ var game;
     function schedulePlay() {
         document.getElementById("Play").style.display = "none";
         clear();
-        game.isRecording = false;
         var startTime = game.line.points[0].timestamp;
         var _loop_1 = function(i) {
             var temp = game.line.points[i];
@@ -131,11 +129,6 @@ var game;
         game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.width);
     }
     game.clear = clear;
-    // export function submit() {
-    //   isDrawFinished = true;
-    //   isRecording = false;
-    // }
-    //canvas operations
     function setLv(lv) {
         game.currentLevel = lv;
     }
@@ -149,8 +142,7 @@ var game;
     game.turn = true;
     function drawFinish() {
         console.log("click submit");
-        game.isDrawFinished = true;
-        game.isRecording = false;
+        game.isDrawing = false;
         var board = game.line;
         var nextMove = gameLogic.createMove(game.state, board, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
@@ -198,7 +190,7 @@ var game;
     }
     function updateGuesserUI() {
         clear();
-        game.isDrawFinished = false;
+        game.line.points = [];
         var word = get_word();
         var result = gameLogic.judge(word);
         if (result) {
@@ -215,7 +207,7 @@ var game;
                 document.getElementById("end_game_message").innerHTML = "Message: Congrats!! All words are correctly guessed!!";
                 return;
             }
-            game.turn = !game.turn;
+            game.isDrawing = !game.isDrawing;
             console.log("change turn");
         }
     }

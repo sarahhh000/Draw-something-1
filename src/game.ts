@@ -16,7 +16,7 @@ module game {
   }
 
   export let hasLvCt = false;
-  export let isDrawFinished = false;
+  export let isDrawing = true;
 
   export let currentLevel = "Easy";
   export let currentCategory = "Animal";
@@ -31,7 +31,6 @@ module game {
 
   export var canvas;
   export var ctx;
-  export let isRecording = true;
   export let isMouseDown = false;
   export let isPlaying = false;
   export let lastMouseX = -1;
@@ -57,7 +56,7 @@ module game {
     let x = Math.floor(event.clientX - canvasX);
     let y = Math.floor(event.clientY - canvasY);
 
-    if (isRecording) {
+    if (isDrawing) {
       currentPoint = createPoint(x, y, currentDrawType);
       drawPoint(currentPoint);
       line.points.push(currentPoint);
@@ -71,10 +70,10 @@ module game {
       let canvasY = canvas.offsetTop;
       let x = Math.floor(event.clientX - canvasX);
       let y = Math.floor(event.clientY - canvasY);
-      
-      if (isRecording) {
+
+      if (isDrawing) {
         currentPoint = createPoint(x, y, currentDrawType);
-      drawPoint(currentPoint);
+        drawPoint(currentPoint);
         line.points.push(currentPoint);
       }
     }
@@ -121,9 +120,8 @@ module game {
   }
 
   export function schedulePlay() {
-document.getElementById("Play").style.display = "none";
-  clear();
-    isRecording = false;
+    document.getElementById("Play").style.display = "none";
+    clear();
     let startTime = line.points[0].timestamp;
     for (let i in line.points) {
       let temp: Point = line.points[i];
@@ -131,8 +129,8 @@ document.getElementById("Play").style.display = "none";
         drawPoint(temp);
       }, temp.timestamp - startTime);
     }
-    window.setTimeout(function() {document.getElementById("Play").style.display = "inline-block";},line.points[line.points.length - 1].timestamp - startTime);
-    
+    window.setTimeout(function () { document.getElementById("Play").style.display = "inline-block"; }, line.points[line.points.length - 1].timestamp - startTime);
+
   }
 
   export function setColor(colorVal: string) {
@@ -150,12 +148,6 @@ document.getElementById("Play").style.display = "none";
     ctx.clearRect(0, 0, canvas.width, canvas.width);
   }
 
-  // export function submit() {
-  //   isDrawFinished = true;
-  //   isRecording = false;
-  // }
-  //canvas operations
-
   export function setLv(lv: string) {
     currentLevel = lv;
   }
@@ -170,9 +162,7 @@ document.getElementById("Play").style.display = "none";
 
   export function drawFinish() {
     console.log("click submit");
-    isDrawFinished = true;
-
-    isRecording = false;
+    isDrawing = false;
     let board: Board = line;
     let nextMove: IMove = gameLogic.createMove(
       state, board, currentUpdateUI.move.turnIndexAfterMove);
@@ -217,7 +207,7 @@ document.getElementById("Play").style.display = "none";
   }
   export function updateGuesserUI() {
     clear();
-    isDrawFinished = false;
+    line.points = [];
     let word: string = get_word();
     let result: boolean = gameLogic.judge(word);
     if (result) {
@@ -234,7 +224,7 @@ document.getElementById("Play").style.display = "none";
         document.getElementById("end_game_message").innerHTML = "Message: Congrats!! All words are correctly guessed!!";
         return;
       }
-      turn = !turn;
+      isDrawing = !isDrawing;
       console.log("change turn");
     }
   }
