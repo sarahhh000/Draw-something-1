@@ -187,6 +187,7 @@ var game;
         return word;
     }
     function updateGuesserUI() {
+        game.isDrawFinished = false;
         var word = get_word();
         var result = gameLogic.judge(word);
         if (result) {
@@ -273,7 +274,11 @@ var game;
         game.currentUpdateUI = params;
         game.state = params.move.stateAfterMove;
         if (isFirstMove()) {
+            game.turn = false;
             game.state = gameLogic.getInitialState();
+        }
+        else {
+            game.turn = true;
         }
     }
     game.updateUI = updateUI;

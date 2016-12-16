@@ -205,6 +205,7 @@ module game {
     return word;
   }
   export function updateGuesserUI() {
+    isDrawFinished = false;
     let word: string = get_word();
     let result: boolean = gameLogic.judge(word);
     if (result) {
@@ -292,7 +293,10 @@ module game {
     currentUpdateUI = params;
     state = params.move.stateAfterMove;
     if (isFirstMove()) {
+      turn = false;
       state = gameLogic.getInitialState();
+    } else {
+      turn = true;
     }
   }
 

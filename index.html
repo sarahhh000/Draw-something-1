@@ -62,7 +62,7 @@
         <div id="end_game_message"></div>
 
         <div id="canvasArea">
-            <div ng-if="!game.isDrawFinished" id="colorArea" class="area">
+            <div ng-show="!game.isDrawFinished" id="colorArea" class="area">
 				<ul>
 					<li ng-repeat='color in game.colors' ng-click="game.setColor(color)" class="colorOptions" id="{{color}}box" style="background-color:{{color}}; margin-left:{{50/(game.colors.length + 1)}}%"></li>
 				</ul>
