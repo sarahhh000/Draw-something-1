@@ -22,10 +22,11 @@ module gameLogic {
   export let endGame: boolean = false;
   export let level = 0;
   let answer_array: string[] = [
-    "DOG", "LIP", 
-    // "BAG", "CAR", "CAT", "EAR", "ANT",
-    // "FISH", "FRIES", "PEAR", "COLA", "HAND", "DESK", "BIRD", "BOAT",
-    // "FRIES", "MOUSE", "DANCE", "BRUSH",
+    "DOG", "LIP", "CAR", "ANT", "TOE", "BED", 
+    "GIFT", "LOVE", "FISH", "PEAR", "COLA", "HAIR", "DESK", 
+    "BIRD", "PLUG", "SNOW", "BIKE", "SALE", "WORD", "BATH", 
+    "FRIES", "MOUSE",  "DANCE", "JEANS", "PIANO", "PHONE", 
+    "SHADOW", "HOLIDAY", "KETCHUP", "BIRTHDAY"
   ];
   export let answer: string = answer_array[level];
   // export let answer_nums: Array<number> = Array.from(answer.length.keys());
