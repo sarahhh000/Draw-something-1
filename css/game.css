@@ -113,10 +113,9 @@ canvas:active, canvas:focus { cursor: crosshair; }
 
 #instruction_button {
   top: 0px;
-  right: 0px;
+  /*right: 0px;*/
   position: absolute;
   height: 43px;
-  margin: 0px auto;
   background-color:skyblue;
   border: transparent;
 }
@@ -132,6 +131,8 @@ canvas:active, canvas:focus { cursor: crosshair; }
   left:0;
   position: absolute;
   border-radius: 20px;
+  width: 370px;
+  margin: 0 auto;
 }
 
 #instructions li {
@@ -175,7 +176,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
 
 #submit {
   height: 30px;
-  right: 0;
+  /*right: 0;*/
   top: 50px;
   position: absolute;
   background-color:skyblue;
@@ -185,7 +186,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
 
 #Play {
   height: 30px;
-  right: 0;
+  /*right: 0;*/
   top: 50px;
   position: absolute;
   background-color:skyblue;
@@ -227,7 +228,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
   background:white;
   margin-left: 10%;
 }
-	
+
 .selectedColor {
 	border-style: solid;
 	border-width: 3px;
@@ -246,4 +247,15 @@ canvas:active, canvas:focus { cursor: crosshair; }
 
 .stroke_selected {
 	border-color: black;
+}
+
+.letter-block {
+
+  margin: 0 auto;
+  width: 400px;
+}
+
+#gameArea {
+  margin: 0 auto;
+  width: 400px;
 }
