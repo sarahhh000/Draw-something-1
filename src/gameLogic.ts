@@ -1,17 +1,15 @@
-//should be canvas
 interface Point {
-    x: number;
-    y: number;
-    timestamp: number;
-    colorStyle: string;
-    sizeStyle: number;
-    type: string;
+  x: number;
+  y: number;
+  timestamp: number;
+  colorStyle: string;
+  sizeStyle: number;
+  type: string;
 }
 
 interface Board {
-    points: Point[];
+  points: Point[];
 }
-
 
 interface IState {
   board: Board;
@@ -20,35 +18,29 @@ interface IState {
 
 module gameLogic {
   export let endGame: boolean = false;
-  export let level = 0;
+
   let answer_array: string[] = [
-    "DOG", "LIP", "CAR", "ANT", "TOE", "BED", 
-    "GIFT", "LOVE", "FISH", "PEAR", "COLA", "HAIR", "DESK", 
-    "BIRD", "PLUG", "SNOW", "BIKE", "SALE", "WORD", "BATH", 
-    "FRIES", "MOUSE",  "DANCE", "JEANS", "PIANO", "PHONE", 
+    "DOG", "LIP", "CAR", "ANT", "TOE", "BED",
+    "GIFT", "LOVE", "FISH", "PEAR", "COLA", "HAIR", "DESK",
+    "BIRD", "PLUG", "SNOW", "BIKE", "SALE", "WORD", "BATH",
+    "FRIES", "MOUSE", "DANCE", "JEANS", "PIANO", "PHONE",
     "SHADOW", "HOLIDAY", "KETCHUP", "BIRTHDAY"
   ];
-  export let answer: string = answer_array[level];
-  // export let answer_nums: Array<number> = Array.from(answer.length.keys());
-  export let answer_nums: number[] = [];
-  for (let i: number = 0; i < answer.length; i++) {
-    answer_nums.push(i);
+
+  function getRandomIndex(): number {
+    return Math.floor(Math.random() * answer_array.length);
   }
 
+  export let answer: string;
+  export let answer_nums: number[] = [];
+
   export function newRound() {
-    level = level + 1;
-    // no more words
-    if (level == answer_array.length) {
-      endGame = true;
-      console.log("end game");
-      return;
-    }
-    answer = answer_array[level];
+    let index: number = getRandomIndex();
+    answer = answer_array[index];
     answer_nums = [];
     for (let i: number = 0; i < answer.length; i++) {
       answer_nums.push(i);
     }
-    // answer_nums = Array.from(Array(answer.length).keys())
   }
 
   // judge if the guess correctly
@@ -61,12 +53,13 @@ module gameLogic {
   }
 
   export function getInitialBoard(): Board {
-    let board: Board = {points:[]};
+    let board: Board = { points: [] };
     return board;
   }
 
   export function getInitialState(): IState {
-    return { board: getInitialBoard(), answer: answer};
+    newRound();
+    return { board: getInitialBoard(), answer: answer };
   }
 
   export function createMove(
@@ -76,13 +69,8 @@ module gameLogic {
     }
     let endMatchScores: number[];
     let turnIndexAfterMove: number;
-    if (!endGame) {
-      turnIndexAfterMove = 1 - turnIndexBeforeMove;
-      endMatchScores = null;
-    } else {
-      turnIndexAfterMove = -1;
-      endMatchScores = null;
-    }
+    turnIndexAfterMove = 1 - turnIndexBeforeMove;
+    endMatchScores = null;
     let boardAfterMove = angular.copy(board);
     let stateAfterMove: IState = { board: boardAfterMove, answer: answer };
     return { endMatchScores: endMatchScores, turnIndexAfterMove: turnIndexAfterMove, stateAfterMove: stateAfterMove };
@@ -96,6 +84,5 @@ module gameLogic {
   }
 
   export function checkMoveOk(stateTransition: IStateTransition): void {
-    
   }
 }

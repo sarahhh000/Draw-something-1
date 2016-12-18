@@ -30,7 +30,7 @@
             <button ng-click="game.showInstructions()" id="show_instruction_button">Help</button>
             <button ng-show="game.isDrawing && !game.isInstructionsShowing" ng-click="game.drawFinish()" id="submit">Submit</button>
             <button ng-show="!game.isDrawing && !game.isInstructionsShowing" ng-click="game.schedulePlay()" id="Play">Play</button>
-            <div id="title">Draw Something - Level {{game.getLevel()}}</div>
+            <div id="title">Draw Something</div>
         </div>
 
         <div ng-show="game.isInstructionsShowing" id="instructions">

@@ -1,7 +1,6 @@
 var gameLogic;
 (function (gameLogic) {
     gameLogic.endGame = false;
-    gameLogic.level = 0;
     var answer_array = [
         "DOG", "LIP", "CAR", "ANT", "TOE", "BED",
         "GIFT", "LOVE", "FISH", "PEAR", "COLA", "HAIR", "DESK",
@@ -9,26 +8,17 @@ var gameLogic;
         "FRIES", "MOUSE", "DANCE", "JEANS", "PIANO", "PHONE",
         "SHADOW", "HOLIDAY", "KETCHUP", "BIRTHDAY"
     ];
-    gameLogic.answer = answer_array[gameLogic.level];
-    // export let answer_nums: Array<number> = Array.from(answer.length.keys());
-    gameLogic.answer_nums = [];
-    for (var i = 0; i < gameLogic.answer.length; i++) {
-        gameLogic.answer_nums.push(i);
+    function getRandomIndex() {
+        return Math.floor(Math.random() * answer_array.length);
     }
+    gameLogic.answer_nums = [];
     function newRound() {
-        gameLogic.level = gameLogic.level + 1;
-        // no more words
-        if (gameLogic.level == answer_array.length) {
-            gameLogic.endGame = true;
-            console.log("end game");
-            return;
-        }
-        gameLogic.answer = answer_array[gameLogic.level];
+        var index = getRandomIndex();
+        gameLogic.answer = answer_array[index];
         gameLogic.answer_nums = [];
         for (var i = 0; i < gameLogic.answer.length; i++) {
             gameLogic.answer_nums.push(i);
         }
-        // answer_nums = Array.from(Array(answer.length).keys())
     }
     gameLogic.newRound = newRound;
     // judge if the guess correctly
@@ -47,6 +37,7 @@ var gameLogic;
     }
     gameLogic.getInitialBoard = getInitialBoard;
     function getInitialState() {
+        newRound();
         return { board: getInitialBoard(), answer: gameLogic.answer };
     }
     gameLogic.getInitialState = getInitialState;
@@ -56,14 +47,8 @@ var gameLogic;
         }
         var endMatchScores;
         var turnIndexAfterMove;
-        if (!gameLogic.endGame) {
-            turnIndexAfterMove = 1 - turnIndexBeforeMove;
-            endMatchScores = null;
-        }
-        else {
-            turnIndexAfterMove = -1;
-            endMatchScores = null;
-        }
+        turnIndexAfterMove = 1 - turnIndexBeforeMove;
+        endMatchScores = null;
         var boardAfterMove = angular.copy(board);
         var stateAfterMove = { board: boardAfterMove, answer: gameLogic.answer };
         return { endMatchScores: endMatchScores, turnIndexAfterMove: turnIndexAfterMove, stateAfterMove: stateAfterMove };

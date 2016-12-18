@@ -1,10 +1,6 @@
 ;
 var game;
 (function (game) {
-    function getLevel() {
-        return gameLogic.level;
-    }
-    game.getLevel = getLevel;
     game.hasLvCt = false;
     game.isDrawing = true;
     game.currentLevel = "Easy";
