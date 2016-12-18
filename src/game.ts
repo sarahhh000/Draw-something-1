@@ -23,10 +23,10 @@ module game {
   export let levels = ["easy", "medium", "hard"];
   export let categories = ["company", "logo", "fruit", "ct4", "ct5", "ct6", "ct7", "ct8", "ct9"];
   export let colors = ["white", "red", "yellow", "blue", "green", "black"];
-  export let sizes = [3, 5, 8, 10, 12, 15];
+  export let sizes = [4, 6, 8, 10, 12];
   export let buttons = { "recordBtn": "Record", "playBtn": "Play", "pauseBtn": "Pause", "clearBtn": "Clear" };
   export let currentWord = "someWord";
-  export let size = 1;
+  export let size = 4;
   export let color = "black";
 
   export var canvas;
@@ -131,11 +131,25 @@ module game {
   }
 
   export function setColor(colorVal: string) {
+    emptyColorStyle();
     color = colorVal;
-    var colorBtn = <HTMLCanvasElement>document.getElementById("colorVal");
+    document.getElementById(color+"box").style.border = "2.5px solid white";
+  }
+  function emptyColorStyle() {
+    for (let i in colors) {
+      document.getElementById(colors[i]+"box").style.border = "0px";
+    }
   }
   export function setSize(sizeVal: number) {
+    emptySizeStyle();
     size = sizeVal;
+    document.getElementById("size" + size).style.border = "2.5px solid black";
+  }
+
+  function emptySizeStyle() {
+    for (let i in sizes) {
+      document.getElementById("size"+sizes[i]).style.border = "0";      
+    }
   }
 
   export function clear() {
@@ -243,10 +257,12 @@ module game {
     }
   }
   export let isInstructionsShowing = false;
-  export function toggleInstructions() {
-    isInstructionsShowing = !isInstructionsShowing;
-    if (isInstructionsShowing) document.getElementById("instruction_button").innerHTML = "Back";
-    else document.getElementById("instruction_button").innerHTML = "Help";
+  export function showInstructions() {
+    isInstructionsShowing = true;
+  }
+
+  export function hideInstructions() {
+    isInstructionsShowing = false;
   }
 
   // update UI part

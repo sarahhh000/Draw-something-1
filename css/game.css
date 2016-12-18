@@ -5,6 +5,9 @@ html, body {
   height: 100%;
   overflow: hidden;
   position: fixed!important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 /* To prevent long-press that will bring up copy-paste dialog. */
 * {
@@ -76,25 +79,6 @@ body {
   background-image: none;
 }
 
-#colorArea button {
-  float: left;
-  /*margin: 0 2% 2% 2%;*/
-  margin : 0;
-  padding: 5px;
-  height: 40px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  -webkit-appearance: button;
-  overflow: visible;
-  border-radius: 6px;
-  white-space: nowrap;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  border: 1px solid;
-  border-radius: 4px;
-}
-
 canvas:active, canvas:focus { cursor: crosshair; }
 
 .frame {
@@ -102,7 +86,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
   width: 24px;
   height: 24px;
   text-align: center;
-  margin: 0px 3px;
+  margin: 0px 2px;
   border: 1px solid lightgrey;
 }
 
@@ -111,27 +95,18 @@ canvas:active, canvas:focus { cursor: crosshair; }
   width: 24px;
 }
 
-#instruction_button {
-  top: 0px;
-  /*right: 0px;*/
-  position: absolute;
-  height: 43px;
-  background-color:skyblue;
-  border: transparent;
-}
-
 #instructions {
   z-index: 1;
   padding: 20px;
   background-color: rgb(220,240,255);
   font-size: 10px;
-  top: 45px;
+  top: 0;
   right:0;
   bottom:0;
   left:0;
   position: absolute;
-  border-radius: 20px;
-  width: 370px;
+  border-radius: 10px;
+  width: 280px;
   margin: 0 auto;
 }
 
@@ -142,8 +117,8 @@ canvas:active, canvas:focus { cursor: crosshair; }
 }
 
 #message {
-  margin-top: 10px;
-  font-size: 16px;
+  margin-top: 2px;
+  font-size: 14px;
   text-align: center;
   background-color: rgb(220,240,255);
 }
@@ -155,40 +130,57 @@ canvas:active, canvas:focus { cursor: crosshair; }
   background-color: red;
 }
 
-#wordArea {
-  display: inline;
+.wordArea {
   text-align: center;
-  /*border: 1px solid purple;*/
 }
 
 #answerArea {
   text-align: center;
-  /*border: 1px solid purple;*/
 }
 
 #title {
-  padding: 10px;
-  font-size: 20px;
-  margin-bottom: 10px;
+  padding: 5px;
+  font-size: 16px;
+  margin-bottom: 5px;
   text-align: center;
   background-color:  rgb(220,240,255);
 }
 
+#show_instruction_button {
+  height: 27px;
+  padding: 0 10px;
+  position: relative;
+  background-color:skyblue;
+  border: transparent;
+  border-radius: 10px;
+}
+
+#hide_instruction_button {
+  z-index: 2;
+  height: 27px;
+  padding: 0 10px;
+  position: relative;
+  float: right;
+  background-color:skyblue;
+  border: transparent;
+  border-radius: 10px;
+}
+
 #submit {
-  height: 30px;
-  /*right: 0;*/
-  top: 50px;
-  position: absolute;
+  height: 27px;
+  padding: 0 10px;
+  float: right;
+  position: relative;
   background-color:skyblue;
   border: transparent;
   border-radius: 10px;
 }
 
 #Play {
-  height: 30px;
-  /*right: 0;*/
-  top: 50px;
-  position: absolute;
+  height: 27px;
+  padding: 0 10px;
+  float: right;
+  position: relative;
   background-color:skyblue;
   border: transparent;
   border-radius: 10px;
@@ -196,7 +188,7 @@ canvas:active, canvas:focus { cursor: crosshair; }
 
 .area {
   background: lightgrey;
-  height: 40px;
+  height: 35px;
   width: 100%;
   border-radius: 5px;
 }
@@ -206,56 +198,44 @@ canvas:active, canvas:focus { cursor: crosshair; }
 }
 
 .colorOptions {
-  margin-left: 5%;
+  margin-left: 5.5%;
   cursor: pointer;
   display: inline-block;
   position: relative;
-  transform: translateY(33%);
+  transform: translateY(3px);
 	width: 10%;
 	height: 66%;
   border-radius: 50%;
+}
+
+#size4 {
+  border: 2.5px solid black;
+}
+
+#blackbox {
+  border: 2.5px solid white;
 }
 
 .sizeOptions {
   cursor: pointer;
   display: inline-block;
   position: relative;
-  transform: translateY(33%);
-	border-style: solid;
-	margin-top: 3px;
-	border-color: #cccccc;
+  transform: translateY(4px);
+  margin-top: 1px;
   border-radius: 50%;
   background:white;
-  margin-left: 10%;
-}
-
-.selectedColor {
-	border-style: solid;
-	border-width: 3px;
-	border-color: black;
-	border-radius: 5px;
+  margin-left: 15%;
 }
 
 #canvas {
   display: block;
-  margin: 10px auto;
+  margin: 2px auto;
 	border:2px;
 	border-color: black;
 	border-style:solid;
   border-radius: 5px;
 }
 
-.stroke_selected {
-	border-color: black;
-}
-
-.letter-block {
-
-  margin: 0 auto;
-  width: 400px;
-}
-
 #gameArea {
-  margin: 0 auto;
-  width: 400px;
+  width: 320px;
 }

@@ -12,10 +12,10 @@ var game;
     game.levels = ["easy", "medium", "hard"];
     game.categories = ["company", "logo", "fruit", "ct4", "ct5", "ct6", "ct7", "ct8", "ct9"];
     game.colors = ["white", "red", "yellow", "blue", "green", "black"];
-    game.sizes = [3, 5, 8, 10, 12, 15];
+    game.sizes = [4, 6, 8, 10, 12];
     game.buttons = { "recordBtn": "Record", "playBtn": "Play", "pauseBtn": "Pause", "clearBtn": "Clear" };
     game.currentWord = "someWord";
-    game.size = 1;
+    game.size = 4;
     game.color = "black";
     game.isMouseDown = false;
     game.isPlaying = false;
@@ -112,14 +112,27 @@ var game;
     }
     game.schedulePlay = schedulePlay;
     function setColor(colorVal) {
+        emptyColorStyle();
         game.color = colorVal;
-        var colorBtn = document.getElementById("colorVal");
+        document.getElementById(game.color + "box").style.border = "2.5px solid white";
     }
     game.setColor = setColor;
+    function emptyColorStyle() {
+        for (var i in game.colors) {
+            document.getElementById(game.colors[i] + "box").style.border = "0px";
+        }
+    }
     function setSize(sizeVal) {
+        emptySizeStyle();
         game.size = sizeVal;
+        document.getElementById("size" + game.size).style.border = "2.5px solid black";
     }
     game.setSize = setSize;
+    function emptySizeStyle() {
+        for (var i in game.sizes) {
+            document.getElementById("size" + game.sizes[i]).style.border = "0";
+        }
+    }
     function clear() {
         game.canvas = document.getElementById("canvas");
         game.ctx = game.canvas.getContext("2d");
@@ -228,14 +241,14 @@ var game;
         }
     }
     game.isInstructionsShowing = false;
-    function toggleInstructions() {
-        game.isInstructionsShowing = !game.isInstructionsShowing;
-        if (game.isInstructionsShowing)
-            document.getElementById("instruction_button").innerHTML = "Back";
-        else
-            document.getElementById("instruction_button").innerHTML = "Help";
+    function showInstructions() {
+        game.isInstructionsShowing = true;
     }
-    game.toggleInstructions = toggleInstructions;
+    game.showInstructions = showInstructions;
+    function hideInstructions() {
+        game.isInstructionsShowing = false;
+    }
+    game.hideInstructions = hideInstructions;
     // update UI part
     game.currentUpdateUI = null;
     game.state = null;
