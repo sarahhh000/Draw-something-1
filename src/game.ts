@@ -10,6 +10,7 @@ interface Translations {
 }
 
 module game {
+  export let didMakeMove: boolean = false;
 
   export let isDrawing = true;
   export let colors = ["white", "red", "yellow", "blue", "green", "black"];
@@ -153,10 +154,14 @@ module game {
   }
 
   export function drawFinish() {
+    if (didMakeMove) { // Only one move per updateUI
+      return;
+    }
     if (!line.points[0]) {
       console.log("empty recording");
       return false;
     }
+    didMakeMove = true;
     document.getElementById("message").innerHTML = "";
     isDrawing = false;
     let board: Board = line;
@@ -299,6 +304,7 @@ module game {
 
   export function updateUI(params: IUpdateUI): void {
     log.info("Game got updateUI:", params);
+    didMakeMove = false; // Only one move per updateUI
     currentUpdateUI = params;
     state = params.move.stateAfterMove;
     if (isFirstMove()) {
@@ -323,7 +329,8 @@ module game {
   }
 
   export function isMyTurn() {
-    return currentUpdateUI.move.turnIndexAfterMove >= 0 && // game is ongoing
+    return !didMakeMove &&
+      currentUpdateUI.move.turnIndexAfterMove >= 0 && // game is ongoing
       currentUpdateUI.yourPlayerIndex === currentUpdateUI.move.turnIndexAfterMove; // it's my turn
   }
 }

@@ -1,6 +1,7 @@
 ;
 var game;
 (function (game) {
+    game.didMakeMove = false;
     game.isDrawing = true;
     game.colors = ["white", "red", "yellow", "blue", "green", "black"];
     game.sizes = [4, 6, 8, 10, 12];
@@ -133,10 +134,14 @@ var game;
     }
     game.clear = clear;
     function drawFinish() {
+        if (game.didMakeMove) {
+            return;
+        }
         if (!game.line.points[0]) {
             console.log("empty recording");
             return false;
         }
+        game.didMakeMove = true;
         document.getElementById("message").innerHTML = "";
         game.isDrawing = false;
         var board = game.line;
@@ -279,6 +284,7 @@ var game;
     }
     function updateUI(params) {
         log.info("Game got updateUI:", params);
+        game.didMakeMove = false; // Only one move per updateUI
         game.currentUpdateUI = params;
         game.state = params.move.stateAfterMove;
         if (isFirstMove()) {
@@ -301,7 +307,8 @@ var game;
         return game.currentUpdateUI.yourPlayerIndex;
     }
     function isMyTurn() {
-        return game.currentUpdateUI.move.turnIndexAfterMove >= 0 &&
+        return !game.didMakeMove &&
+            game.currentUpdateUI.move.turnIndexAfterMove >= 0 &&
             game.currentUpdateUI.yourPlayerIndex === game.currentUpdateUI.move.turnIndexAfterMove; // it's my turn
     }
     game.isMyTurn = isMyTurn;
