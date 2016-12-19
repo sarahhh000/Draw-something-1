@@ -3,6 +3,10 @@ var game;
 (function (game) {
     game.didMakeMove = false;
     game.isDrawing = true;
+    function returnIsDrawing() {
+        return game.isDrawing;
+    }
+    game.returnIsDrawing = returnIsDrawing;
     game.colors = ["white", "red", "yellow", "blue", "green", "black"];
     game.sizes = [4, 6, 8, 10, 12];
     game.size = 4;
@@ -148,7 +152,6 @@ var game;
         var newState = { board: board, answer: game.get_answer() };
         var nextMove = gameLogic.createMove(game.state, newState, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
-        game.isDrawing = false;
         clear();
     }
     game.drawFinish = drawFinish;
@@ -214,8 +217,15 @@ var game;
             }
             game.isDrawing = !game.isDrawing;
         }
+        applyScope();
     }
     game.updateGuesserUI = updateGuesserUI;
+    function applyScope() {
+        if (game.isDrawing === true) {
+            console.log("applyscope");
+            $rootScope.$apply();
+        }
+    }
     function get_answer() {
         return gameLogic.answer;
     }
