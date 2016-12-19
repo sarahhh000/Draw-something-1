@@ -14,7 +14,6 @@ var game;
     game.size = 4;
     game.color = "black";
     game.isMouseDown = false;
-    game.isPlaying = false;
     game.lastMouseX = -1;
     game.lastMouseY = -1;
     game.line = { points: new Array() };
@@ -144,15 +143,13 @@ var game;
         // hasLvCt = true;
     }
     game.setCt = setCt;
-    // turn: true: guess, false: draw
-    game.turn = true;
     function drawFinish() {
         document.getElementById("message").innerHTML = "";
         game.isDrawing = false;
         var board = game.line;
         var nextMove = gameLogic.createMove(game.state, board, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
-        game.turn = !game.turn;
+        game.isDrawing = false;
         clear();
     }
     game.drawFinish = drawFinish;
@@ -284,11 +281,12 @@ var game;
         game.currentUpdateUI = params;
         game.state = params.move.stateAfterMove;
         if (isFirstMove()) {
-            game.turn = false;
+            game.isDrawing = true;
             game.state = gameLogic.getInitialState();
         }
         else {
-            game.turn = true;
+            game.isDrawing = false;
+            game.state = params.move.stateAfterMove;
         }
     }
     game.updateUI = updateUI;

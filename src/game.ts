@@ -28,7 +28,6 @@ module game {
   export var canvas;
   export var ctx;
   export let isMouseDown = false;
-  export let isPlaying = false;
   export let lastMouseX = -1;
   export let lastMouseY = -1;
 
@@ -163,9 +162,6 @@ module game {
     // hasLvCt = true;
   }
 
-  // turn: true: guess, false: draw
-  export let turn: boolean = true;
-
   export function drawFinish() {
     document.getElementById("message").innerHTML = "";
     isDrawing = false;
@@ -173,7 +169,7 @@ module game {
     let nextMove: IMove = gameLogic.createMove(
       state, board, currentUpdateUI.move.turnIndexAfterMove);
     makeMove(nextMove);
-    turn = !turn;
+    isDrawing = false;
     clear();
   }
 
@@ -303,10 +299,11 @@ module game {
     currentUpdateUI = params;
     state = params.move.stateAfterMove;
     if (isFirstMove()) {
-      turn = false;
+      isDrawing = true;
       state = gameLogic.getInitialState();
     } else {
-      turn = true;
+      isDrawing = false;
+      state = params.move.stateAfterMove;
     }
   }
 
