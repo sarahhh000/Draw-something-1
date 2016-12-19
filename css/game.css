@@ -11,6 +11,7 @@ html, body {
 }
 /* To prevent long-press that will bring up copy-paste dialog. */
 * {
+  margin:0; padding:0;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
