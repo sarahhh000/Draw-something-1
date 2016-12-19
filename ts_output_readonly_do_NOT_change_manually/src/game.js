@@ -148,7 +148,6 @@ var game;
         var newState = { board: board, answer: game.get_answer() };
         var nextMove = gameLogic.createMove(game.state, newState, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
-        game.isDrawing = false;
         clear();
     }
     game.drawFinish = drawFinish;

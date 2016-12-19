@@ -169,7 +169,6 @@ module game {
     let nextMove: IMove = gameLogic.createMove(
       state, newState, currentUpdateUI.move.turnIndexAfterMove);
     makeMove(nextMove);
-    isDrawing = false;
     clear();
   }
 
