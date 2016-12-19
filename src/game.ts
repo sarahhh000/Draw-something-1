@@ -195,7 +195,7 @@ module game {
     }
     let new_parent = document.getElementById(new_parent_id);
     new_parent.appendChild(img);
-    if (next_avaliable_spot_num == gameLogic.answer.length) updateGuesserUI();
+    if (next_avaliable_spot_num == state.answer.length) updateGuesserUI();
   }
   function get_word(): string {
     let word: string = "";

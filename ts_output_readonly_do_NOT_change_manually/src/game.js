@@ -176,7 +176,7 @@ var game;
         }
         var new_parent = document.getElementById(new_parent_id);
         new_parent.appendChild(img);
-        if (next_avaliable_spot_num == gameLogic.answer.length)
+        if (next_avaliable_spot_num == game.state.answer.length)
             updateGuesserUI();
     }
     game.imgClicked = imgClicked;
