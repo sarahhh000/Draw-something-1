@@ -205,8 +205,6 @@ module game {
 
   export function updateGuesserUI() {
     let word: string = get_word();
-    console.log(word);
-    console.log(state.answer);
     let result: boolean = gameLogic.judge(word, state.answer);
     if (result) {
       for (let i in timeoutList) {
@@ -214,6 +212,7 @@ module game {
       }
       document.getElementById("message").innerHTML = "Message: Correct! The answer is\"" + word + "\"!";
       line.points = [];
+      state.board.points = [];
       clear();
     } else {
       document.getElementById("message").innerHTML = "Message: Wrong answer \"" + word + "\", guess again!";

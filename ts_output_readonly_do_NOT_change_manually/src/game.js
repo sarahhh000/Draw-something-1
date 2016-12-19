@@ -187,8 +187,6 @@ var game;
     }
     function updateGuesserUI() {
         var word = get_word();
-        console.log(word);
-        console.log(game.state.answer);
         var result = gameLogic.judge(word, game.state.answer);
         if (result) {
             for (var i in game.timeoutList) {
@@ -196,6 +194,7 @@ var game;
             }
             document.getElementById("message").innerHTML = "Message: Correct! The answer is\"" + word + "\"!";
             game.line.points = [];
+            game.state.board.points = [];
             clear();
         }
         else {
