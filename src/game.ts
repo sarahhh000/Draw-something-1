@@ -205,6 +205,8 @@ module game {
 
   export function updateGuesserUI() {
     let word: string = get_word();
+    console.log(word);
+    console.log(state.answer);
     let result: boolean = gameLogic.judge(word, state.answer);
     if (result) {
       for (let i in timeoutList) {
