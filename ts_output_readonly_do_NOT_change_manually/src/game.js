@@ -140,7 +140,8 @@ var game;
         document.getElementById("message").innerHTML = "";
         game.isDrawing = false;
         var board = game.line;
-        var nextMove = gameLogic.createMove(game.state, board, game.currentUpdateUI.move.turnIndexAfterMove);
+        var newState = { board: board, answer: game.get_answer() };
+        var nextMove = gameLogic.createMove(game.state, newState, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
         game.isDrawing = false;
         clear();
@@ -176,7 +177,7 @@ var game;
     game.imgClicked = imgClicked;
     function get_word() {
         var word = "";
-        for (var num in gameLogic.answer_nums) {
+        for (var num in get_answer_nums()) {
             var parent_id = "u" + num;
             var ele = document.getElementById(parent_id).childNodes[0];
             var letter = ele.src.substring(ele.src.lastIndexOf("/")).substring(8, 9);
@@ -214,11 +215,16 @@ var game;
     }
     game.get_answer = get_answer;
     function get_answer_nums() {
-        return gameLogic.answer_nums;
+        var ans = game.state.answer;
+        var answer_nums = [];
+        for (var i = 0; i < ans.length; i++) {
+            answer_nums.push(i);
+        }
+        return answer_nums;
     }
     game.get_answer_nums = get_answer_nums;
     function empty_blank() {
-        var num = gameLogic.answer_nums.length - 1;
+        var num = get_answer_nums().length - 1;
         while (num >= 0) {
             var parent_id = "u" + num;
             var img = document.getElementById(parent_id).childNodes[0];

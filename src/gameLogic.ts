@@ -32,15 +32,10 @@ module gameLogic {
   }
 
   export let answer: string;
-  export let answer_nums: number[] = [];
 
   export function newRound() {
     let index: number = getRandomIndex();
     answer = answer_array[index];
-    answer_nums = [];
-    for (let i: number = 0; i < answer.length; i++) {
-      answer_nums.push(i);
-    }
   }
 
   // judge if the guess correctly
@@ -63,7 +58,7 @@ module gameLogic {
   }
 
   export function createMove(
-    stateBeforeMove: IState, board: Board, turnIndexBeforeMove: number): IMove {
+    stateBeforeMove: IState, newState: IState, turnIndexBeforeMove: number): IMove {
     if (!stateBeforeMove) {
       stateBeforeMove = getInitialState();
     }
@@ -71,8 +66,7 @@ module gameLogic {
     let turnIndexAfterMove: number;
     turnIndexAfterMove = 1 - turnIndexBeforeMove;
     endMatchScores = null;
-    let boardAfterMove = angular.copy(board);
-    let stateAfterMove: IState = { board: boardAfterMove, answer: answer };
+    let stateAfterMove: IState = angular.copy(newState);
     return { endMatchScores: endMatchScores, turnIndexAfterMove: turnIndexAfterMove, stateAfterMove: stateAfterMove };
   }
 

@@ -160,8 +160,9 @@ module game {
     document.getElementById("message").innerHTML = "";
     isDrawing = false;
     let board: Board = line;
+    let newState: IState = {board: board, answer: game.get_answer()};
     let nextMove: IMove = gameLogic.createMove(
-      state, board, currentUpdateUI.move.turnIndexAfterMove);
+      state, newState, currentUpdateUI.move.turnIndexAfterMove);
     makeMove(nextMove);
     isDrawing = false;
     clear();
@@ -193,7 +194,7 @@ module game {
   }
   function get_word(): string {
     let word: string = "";
-    for (let num in gameLogic.answer_nums) {
+    for (let num in get_answer_nums()) {
       let parent_id: string = "u" + num;
       let ele: HTMLImageElement = <HTMLImageElement>document.getElementById(parent_id).childNodes[0];
       let letter: string = ele.src.substring(ele.src.lastIndexOf("/")).substring(8, 9);
@@ -231,11 +232,16 @@ module game {
   }
 
   export function get_answer_nums(): number[] {
-    return gameLogic.answer_nums;
+    let ans = state.answer;
+    let answer_nums: number[] = [];
+    for (let i: number = 0; i < ans.length; i++) {
+      answer_nums.push(i);
+    }
+    return answer_nums;
   }
 
   function empty_blank() {
-    let num: number = gameLogic.answer_nums.length - 1;
+    let num: number = get_answer_nums().length - 1;
     while (num >= 0) {
       let parent_id: string = "u" + num;
       let img: HTMLImageElement = <HTMLImageElement>document.getElementById(parent_id).childNodes[0];

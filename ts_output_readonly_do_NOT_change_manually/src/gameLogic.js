@@ -11,14 +11,9 @@ var gameLogic;
     function getRandomIndex() {
         return Math.floor(Math.random() * answer_array.length);
     }
-    gameLogic.answer_nums = [];
     function newRound() {
         var index = getRandomIndex();
         gameLogic.answer = answer_array[index];
-        gameLogic.answer_nums = [];
-        for (var i = 0; i < gameLogic.answer.length; i++) {
-            gameLogic.answer_nums.push(i);
-        }
     }
     gameLogic.newRound = newRound;
     // judge if the guess correctly
@@ -41,7 +36,7 @@ var gameLogic;
         return { board: getInitialBoard(), answer: gameLogic.answer };
     }
     gameLogic.getInitialState = getInitialState;
-    function createMove(stateBeforeMove, board, turnIndexBeforeMove) {
+    function createMove(stateBeforeMove, newState, turnIndexBeforeMove) {
         if (!stateBeforeMove) {
             stateBeforeMove = getInitialState();
         }
@@ -49,8 +44,7 @@ var gameLogic;
         var turnIndexAfterMove;
         turnIndexAfterMove = 1 - turnIndexBeforeMove;
         endMatchScores = null;
-        var boardAfterMove = angular.copy(board);
-        var stateAfterMove = { board: boardAfterMove, answer: gameLogic.answer };
+        var stateAfterMove = angular.copy(newState);
         return { endMatchScores: endMatchScores, turnIndexAfterMove: turnIndexAfterMove, stateAfterMove: stateAfterMove };
     }
     gameLogic.createMove = createMove;
