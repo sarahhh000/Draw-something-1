@@ -221,10 +221,7 @@ var game;
     }
     game.updateGuesserUI = updateGuesserUI;
     function applyScope() {
-        if (game.isDrawing === true) {
-            console.log("applyscope");
-            $rootScope.$apply();
-        }
+        $rootScope.$apply();
     }
     function get_answer() {
         return gameLogic.answer;

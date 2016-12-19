@@ -233,18 +233,13 @@ module game {
         document.getElementById("end_game_message").innerHTML = "Message: Congrats!! All words are correctly guessed!!";
         return;
       }
-      isDrawing = !isDrawing!
-      
-      // isDrawing = !isDrawing;
+      isDrawing = !isDrawing;
     }
     applyScope();
   }
 
   function applyScope() {
-    if (isDrawing === true) {
-      console.log("applyscope");
       $rootScope.$apply();
-    }
   }
 
   export function get_answer(): string {
