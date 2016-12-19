@@ -84,23 +84,24 @@ var game;
     }
     game.onMouseLeave = onMouseLeave;
     function schedulePlay() {
-        if (!game.line.points[0]) {
+        var tempLine = game.state.board;
+        if (!tempLine.points[0]) {
             console.log("empty recording!");
             return false;
         }
         document.getElementById("Play").style.display = "none";
         clear();
-        var startTime = game.line.points[0].timestamp;
+        var startTime = tempLine.points[0].timestamp;
         var _loop_1 = function(i) {
-            var temp = game.line.points[i];
+            var temp = tempLine.points[i];
             game.timeoutList[i] = window.setTimeout(function () {
                 drawPoint(temp);
             }, temp.timestamp - startTime);
         };
-        for (var i in game.line.points) {
+        for (var i in tempLine.points) {
             _loop_1(i);
         }
-        window.setTimeout(function () { document.getElementById("Play").style.display = "inline-block"; }, game.line.points[game.line.points.length - 1].timestamp - startTime);
+        window.setTimeout(function () { document.getElementById("Play").style.display = "inline-block"; }, tempLine.points[tempLine.points.length - 1].timestamp - startTime);
     }
     game.schedulePlay = schedulePlay;
     function setColor(colorVal) {

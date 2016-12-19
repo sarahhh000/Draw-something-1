@@ -105,20 +105,21 @@ module game {
   }
 
   export function schedulePlay() {
-    if (!line.points[0]) {
+    let tempLine = state.board;
+    if (!tempLine.points[0]) {
       console.log("empty recording!");
       return false;
     }
     document.getElementById("Play").style.display = "none";
     clear();
-    let startTime = line.points[0].timestamp;
-    for (let i in line.points) {
-      let temp: Point = line.points[i];
+    let startTime = tempLine.points[0].timestamp;
+    for (let i in tempLine.points) {
+      let temp: Point = tempLine.points[i];
       timeoutList[i] = window.setTimeout(function () {
         drawPoint(temp);
       }, temp.timestamp - startTime);
     }
-    window.setTimeout(function () { document.getElementById("Play").style.display = "inline-block"; }, line.points[line.points.length - 1].timestamp - startTime);
+    window.setTimeout(function () { document.getElementById("Play").style.display = "inline-block"; }, tempLine.points[tempLine.points.length - 1].timestamp - startTime);
   }
 
   export function setColor(colorVal: string) {
