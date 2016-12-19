@@ -39,8 +39,8 @@ module gameLogic {
   }
 
   // judge if the guess correctly
-  export function judge(word: string): boolean {
-    if (word == answer) {
+  export function judge(word: string, ans: string): boolean {
+    if (word == ans) {
       return true;
     } else {
       return false;

@@ -187,7 +187,7 @@ var game;
     }
     function updateGuesserUI() {
         var word = get_word();
-        var result = gameLogic.judge(word);
+        var result = gameLogic.judge(word, game.state.answer);
         if (result) {
             for (var i in game.timeoutList) {
                 window.clearTimeout(game.timeoutList[i]);

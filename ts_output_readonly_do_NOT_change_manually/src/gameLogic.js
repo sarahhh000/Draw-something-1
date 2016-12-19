@@ -17,8 +17,8 @@ var gameLogic;
     }
     gameLogic.newRound = newRound;
     // judge if the guess correctly
-    function judge(word) {
-        if (word == gameLogic.answer) {
+    function judge(word, ans) {
+        if (word == ans) {
             return true;
         }
         else {
