@@ -69,6 +69,7 @@
         <div id="canvasArea">
             <div ng-show="game.isDrawing" id="colorArea" class="area">
                 <div ng-repeat='color in game.colors' ng-click="game.setColor(color)" class="colorOptions" id="{{color}}box" style="background-color:{{color}};"></div>
+                <button ng-click="game.clear()" id="Clear" type="button">Clear</button>
             </div>
 
             <canvas id="canvas" width="300px" height="300px" style="background-color: white"></canvas>

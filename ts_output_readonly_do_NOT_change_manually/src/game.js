@@ -1,36 +1,30 @@
 ;
 var game;
 (function (game) {
-    game.hasLvCt = false;
     game.isDrawing = true;
-    game.currentLevel = "Easy";
-    game.currentCategory = "Animal";
-    game.levels = ["easy", "medium", "hard"];
-    game.categories = ["company", "logo", "fruit", "ct4", "ct5", "ct6", "ct7", "ct8", "ct9"];
     game.colors = ["white", "red", "yellow", "blue", "green", "black"];
     game.sizes = [4, 6, 8, 10, 12];
-    game.buttons = { "recordBtn": "Record", "playBtn": "Play", "pauseBtn": "Pause", "clearBtn": "Clear" };
-    game.currentWord = "someWord";
     game.size = 4;
     game.color = "black";
     game.isMouseDown = false;
-    game.lastMouseX = -1;
-    game.lastMouseY = -1;
+    game.isPlaying = false;
     game.line = { points: new Array() };
+    game.timeoutList = [];
     function createPoint(xVal, yVal, drawType) {
         return { x: xVal, y: yVal, timestamp: (new Date()).getTime(), colorStyle: game.color, sizeStyle: game.size, type: drawType };
     }
     game.createPoint = createPoint;
     function handleDragEvent(type, X, Y, event) {
-        if (type == "touchstart") {
-            console.log("touchstart == onMouseDown");
-            onMouseDown(event, X, Y);
-        }
-        if (type == "touchmove") {
-            onMouseMove(event, X, Y);
-        }
-        if (type == "touchend") {
-            onMouseUp(event);
+        if (game.isDrawing) {
+            if (type == "touchstart") {
+                onMouseDown(event, X, Y);
+            }
+            if (type == "touchmove") {
+                onMouseMove(event, X, Y);
+            }
+            if (type == "touchend") {
+                onMouseUp();
+            }
         }
     }
     function onMouseDown(event, X, Y) {
@@ -83,32 +77,23 @@ var game;
     }
     function onMouseUp() {
         game.isMouseDown = false;
-        game.lastMouseX = -1;
-        game.lastMouseY = -1;
     }
     game.onMouseUp = onMouseUp;
     function onMouseLeave() {
         game.isMouseDown = false;
-        game.lastMouseX = -1;
-        game.lastMouseY = -1;
     }
     game.onMouseLeave = onMouseLeave;
-    function playRecording() {
-        clear();
-        var pointCount = game.line.points.length;
-        for (var i = 0; i < pointCount; i++) {
-            drawPoint(game.line.points[i]);
-        }
-    }
-    game.playRecording = playRecording;
-    game.list = [];
     function schedulePlay() {
+        if (!game.line.points[0]) {
+            console.log("empty recording!");
+            return false;
+        }
         document.getElementById("Play").style.display = "none";
         clear();
         var startTime = game.line.points[0].timestamp;
         var _loop_1 = function(i) {
             var temp = game.line.points[i];
-            game.list[i] = window.setTimeout(function () {
+            game.timeoutList[i] = window.setTimeout(function () {
                 drawPoint(temp);
             }, temp.timestamp - startTime);
         };
@@ -146,16 +131,11 @@ var game;
         game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.width);
     }
     game.clear = clear;
-    function setLv(lv) {
-        game.currentLevel = lv;
-    }
-    game.setLv = setLv;
-    function setCt(ct) {
-        game.currentCategory = ct;
-        // hasLvCt = true;
-    }
-    game.setCt = setCt;
     function drawFinish() {
+        if (!game.line.points[0]) {
+            console.log("empty recording");
+            return false;
+        }
         document.getElementById("message").innerHTML = "";
         game.isDrawing = false;
         var board = game.line;
@@ -207,8 +187,8 @@ var game;
         var word = get_word();
         var result = gameLogic.judge(word);
         if (result) {
-            for (var i in game.list) {
-                window.clearTimeout(game.list[i]);
+            for (var i in game.timeoutList) {
+                window.clearTimeout(game.timeoutList[i]);
             }
             document.getElementById("message").innerHTML = "Message: Correct! The answer is\"" + word + "\"!";
             game.line.points = [];

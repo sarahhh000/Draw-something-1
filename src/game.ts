@@ -11,45 +11,37 @@ interface Translations {
 
 module game {
 
-  export let hasLvCt = false;
   export let isDrawing = true;
-
-  export let currentLevel = "Easy";
-  export let currentCategory = "Animal";
-  export let levels = ["easy", "medium", "hard"];
-  export let categories = ["company", "logo", "fruit", "ct4", "ct5", "ct6", "ct7", "ct8", "ct9"];
   export let colors = ["white", "red", "yellow", "blue", "green", "black"];
   export let sizes = [4, 6, 8, 10, 12];
-  export let buttons = { "recordBtn": "Record", "playBtn": "Play", "pauseBtn": "Pause", "clearBtn": "Clear" };
-  export let currentWord = "someWord";
   export let size = 4;
   export let color = "black";
 
   export var canvas;
   export var ctx;
   export let isMouseDown = false;
-  export let lastMouseX = -1;
-  export let lastMouseY = -1;
+  export let isPlaying = false;
 
   export let currentDrawType: string;
   export let currentPoint: Point;
   export let line: Board = { points: new Array<Point>() };
-
+  export var timeoutList = [];
 
   export function createPoint(xVal: number, yVal: number, drawType: string): Point {
     return { x: xVal, y: yVal, timestamp: (new Date()).getTime(), colorStyle: color, sizeStyle: size, type: drawType }
   }
 
   function handleDragEvent(type: string, X, Y, event) {
-    if (type == "touchstart") {
-      console.log("touchstart == onMouseDown")
-      onMouseDown(event, X, Y);
-    }
-    if (type == "touchmove") {
-      onMouseMove(event, X, Y);
-    }
-    if (type == "touchend") {
-      onMouseUp(event);
+    if (isDrawing) {
+      if (type == "touchstart") {
+        onMouseDown(event, X, Y);
+      }
+      if (type == "touchmove") {
+        onMouseMove(event, X, Y);
+      }
+      if (type == "touchend") {
+        onMouseUp();
+      }
     }
   }
 
@@ -106,48 +98,41 @@ module game {
 
   export function onMouseUp() {
     isMouseDown = false;
-    lastMouseX = -1;
-    lastMouseY = -1;
   }
 
   export function onMouseLeave() {
     isMouseDown = false;
-    lastMouseX = -1;
-    lastMouseY = -1;
   }
 
-  export function playRecording() {
-    clear();
-    let pointCount = line.points.length;
-    for (let i = 0; i < pointCount; i++) {
-      drawPoint(line.points[i]);
-    }
-  }
-  export var list = [];
   export function schedulePlay() {
+    if (!line.points[0]) {
+      console.log("empty recording!");
+      return false;
+    }
     document.getElementById("Play").style.display = "none";
     clear();
     let startTime = line.points[0].timestamp;
     for (let i in line.points) {
       let temp: Point = line.points[i];
-      list [i] = window.setTimeout(function () {
+      timeoutList[i] = window.setTimeout(function () {
         drawPoint(temp);
       }, temp.timestamp - startTime);
     }
     window.setTimeout(function () { document.getElementById("Play").style.display = "inline-block"; }, line.points[line.points.length - 1].timestamp - startTime);
-
   }
 
   export function setColor(colorVal: string) {
     emptyColorStyle();
     color = colorVal;
-    document.getElementById(color+"box").style.border = "2.5px solid white";
+    document.getElementById(color + "box").style.border = "2.5px solid white";
   }
+
   function emptyColorStyle() {
     for (let i in colors) {
-      document.getElementById(colors[i]+"box").style.border = "0px";
+      document.getElementById(colors[i] + "box").style.border = "0px";
     }
   }
+
   export function setSize(sizeVal: number) {
     emptySizeStyle();
     size = sizeVal;
@@ -156,7 +141,7 @@ module game {
 
   function emptySizeStyle() {
     for (let i in sizes) {
-      document.getElementById("size"+sizes[i]).style.border = "0";      
+      document.getElementById("size" + sizes[i]).style.border = "0";
     }
   }
 
@@ -166,16 +151,11 @@ module game {
     ctx.clearRect(0, 0, canvas.width, canvas.width);
   }
 
-  export function setLv(lv: string) {
-    currentLevel = lv;
-  }
-
-  export function setCt(ct: string) {
-    currentCategory = ct;
-    // hasLvCt = true;
-  }
-
   export function drawFinish() {
+    if (!line.points[0]) {
+      console.log("empty recording");
+      return false;
+    }
     document.getElementById("message").innerHTML = "";
     isDrawing = false;
     let board: Board = line;
@@ -220,12 +200,13 @@ module game {
     }
     return word;
   }
+
   export function updateGuesserUI() {
     let word: string = get_word();
     let result: boolean = gameLogic.judge(word);
     if (result) {
-      for (let i in list) {
-        window.clearTimeout(list[i]);
+      for (let i in timeoutList) {
+        window.clearTimeout(timeoutList[i]);
       }
       document.getElementById("message").innerHTML = "Message: Correct! The answer is\"" + word + "\"!";
       line.points = [];
