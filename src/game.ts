@@ -41,7 +41,20 @@ module game {
     return { x: xVal, y: yVal, timestamp: (new Date()).getTime(), colorStyle: color, sizeStyle: size, type: drawType }
   }
 
-  export function onMouseDown(event) {
+  function handleDragEvent(type: string, X, Y, event) {
+    if (type == "touchstart") {
+      console.log("touchstart == onMouseDown")
+      onMouseDown(event, X, Y);
+    }
+    if (type == "touchmove") {
+      onMouseMove(event, X, Y);
+    }
+    if (type == "touchend") {
+      onMouseUp(event);
+    }
+  }
+
+  export function onMouseDown(event, X, Y) {
     canvas = <HTMLCanvasElement>document.getElementById("canvas");
     ctx = canvas.getContext("2d");
     ctx.lineCap = "round";
@@ -49,8 +62,8 @@ module game {
     isMouseDown = true;
     let canvasX = canvas.offsetLeft;
     let canvasY = canvas.offsetTop;
-    let x = Math.floor(event.clientX - canvasX);
-    let y = Math.floor(event.clientY - canvasY);
+    let x = Math.floor(X - canvasX);
+    let y = Math.floor(Y - canvasY);
 
     if (isDrawing) {
       currentPoint = createPoint(x, y, currentDrawType);
@@ -59,13 +72,13 @@ module game {
     }
   }
 
-  export function onMouseMove(event) {
+  export function onMouseMove(event, X, Y) {
     if (isMouseDown) {
       currentDrawType = "onMouseMove";
       let canvasX = canvas.offsetLeft;
       let canvasY = canvas.offsetTop;
-      let x = Math.floor(event.clientX - canvasX);
-      let y = Math.floor(event.clientY - canvasY);
+      let x = Math.floor(X - canvasX);
+      let y = Math.floor(Y - canvasY);
 
       if (isDrawing) {
         currentPoint = createPoint(x, y, currentDrawType);
@@ -277,6 +290,7 @@ module game {
       // communityUI: communityUI,
       getStateForOgImage: null,
     });
+    dragAndDropService.addDragListener("canvas", handleDragEvent);
   }
 
   function registerServiceWorker() {

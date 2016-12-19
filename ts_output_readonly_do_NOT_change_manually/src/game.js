@@ -22,7 +22,19 @@ var game;
         return { x: xVal, y: yVal, timestamp: (new Date()).getTime(), colorStyle: game.color, sizeStyle: game.size, type: drawType };
     }
     game.createPoint = createPoint;
-    function onMouseDown(event) {
+    function handleDragEvent(type, X, Y, event) {
+        if (type == "touchstart") {
+            console.log("touchstart == onMouseDown");
+            onMouseDown(event, X, Y);
+        }
+        if (type == "touchmove") {
+            onMouseMove(event, X, Y);
+        }
+        if (type == "touchend") {
+            onMouseUp(event);
+        }
+    }
+    function onMouseDown(event, X, Y) {
         game.canvas = document.getElementById("canvas");
         game.ctx = game.canvas.getContext("2d");
         game.ctx.lineCap = "round";
@@ -30,8 +42,8 @@ var game;
         game.isMouseDown = true;
         var canvasX = game.canvas.offsetLeft;
         var canvasY = game.canvas.offsetTop;
-        var x = Math.floor(event.clientX - canvasX);
-        var y = Math.floor(event.clientY - canvasY);
+        var x = Math.floor(X - canvasX);
+        var y = Math.floor(Y - canvasY);
         if (game.isDrawing) {
             game.currentPoint = createPoint(x, y, game.currentDrawType);
             drawPoint(game.currentPoint);
@@ -39,13 +51,13 @@ var game;
         }
     }
     game.onMouseDown = onMouseDown;
-    function onMouseMove(event) {
+    function onMouseMove(event, X, Y) {
         if (game.isMouseDown) {
             game.currentDrawType = "onMouseMove";
             var canvasX = game.canvas.offsetLeft;
             var canvasY = game.canvas.offsetTop;
-            var x = Math.floor(event.clientX - canvasX);
-            var y = Math.floor(event.clientY - canvasY);
+            var x = Math.floor(X - canvasX);
+            var y = Math.floor(Y - canvasY);
             if (game.isDrawing) {
                 game.currentPoint = createPoint(x, y, game.currentDrawType);
                 drawPoint(game.currentPoint);
@@ -260,6 +272,7 @@ var game;
             // communityUI: communityUI,
             getStateForOgImage: null,
         });
+        dragAndDropService.addDragListener("canvas", handleDragEvent);
     }
     game.init = init;
     function registerServiceWorker() {
