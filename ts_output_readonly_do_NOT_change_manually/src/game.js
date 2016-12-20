@@ -270,7 +270,6 @@ var game;
             getStateForOgImage: null,
         });
         dragAndDropService.addDragListener("canvas", handleDragEvent);
-        game.isHolding = false;
         applyScope();
     }
     game.init = init;
@@ -298,12 +297,10 @@ var game;
         game.state = params.move.stateAfterMove;
         if (isFirstMove()) {
             game.isDrawing = true;
-            game.isHolding = false;
             game.state = gameLogic.getInitialState();
         }
         else {
             game.isDrawing = false;
-            game.isHolding = false;
             game.state = params.move.stateAfterMove;
         }
     }

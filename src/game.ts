@@ -290,7 +290,6 @@ module game {
       getStateForOgImage: null,
     });
     dragAndDropService.addDragListener("canvas", handleDragEvent);
-    isHolding = false;
     applyScope();
   }
 
@@ -320,11 +319,9 @@ module game {
     state = params.move.stateAfterMove;
     if (isFirstMove()) {
       isDrawing = true;
-      isHolding = false;
       state = gameLogic.getInitialState();
     } else {
       isDrawing = false;
-      isHolding = false;
       state = params.move.stateAfterMove;
     }
   }
