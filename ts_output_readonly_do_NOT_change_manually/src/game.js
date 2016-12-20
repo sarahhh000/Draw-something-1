@@ -151,6 +151,7 @@ var game;
         makeMove(nextMove);
         clear();
         game.isHolding = true;
+        applyScope();
     }
     game.drawFinish = drawFinish;
     var allLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -214,6 +215,7 @@ var game;
                 return;
             }
             game.isDrawing = !game.isDrawing;
+            game.isHolding = false;
         }
         applyScope();
     }
@@ -296,10 +298,12 @@ var game;
         game.state = params.move.stateAfterMove;
         if (isFirstMove()) {
             game.isDrawing = true;
+            game.isHolding = false;
             game.state = gameLogic.getInitialState();
         }
         else {
             game.isDrawing = false;
+            game.isHolding = false;
             game.state = params.move.stateAfterMove;
         }
     }

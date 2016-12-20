@@ -172,7 +172,7 @@ module game {
     makeMove(nextMove);
     clear();
     isHolding = true;
-
+    applyScope();
   }
 
   let allLetters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -233,6 +233,7 @@ module game {
         return;
       }
       isDrawing = !isDrawing;
+      isHolding = false;
     }
     applyScope();
   }
@@ -319,9 +320,11 @@ module game {
     state = params.move.stateAfterMove;
     if (isFirstMove()) {
       isDrawing = true;
+      isHolding = false;
       state = gameLogic.getInitialState();
     } else {
       isDrawing = false;
+      isHolding = false;
       state = params.move.stateAfterMove;
     }
   }
