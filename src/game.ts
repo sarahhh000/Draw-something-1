@@ -21,7 +21,6 @@ module game {
   export var canvas;
   export var ctx;
   export let isMouseDown = false;
-  export let isPlaying = false;
   export let isDrawing = true;
 
   export let currentDrawType: string;
@@ -281,7 +280,6 @@ module game {
     registerServiceWorker();
     translate.setTranslations(getTranslations());
     // resizeGameAreaService.setWidthToHeight(0.7);
-    applyScope();
     moveService.setGame({
       minNumberOfPlayers: 2,
       maxNumberOfPlayers: 2,
@@ -291,7 +289,6 @@ module game {
       getStateForOgImage: null,
     });
     dragAndDropService.addDragListener("canvas", handleDragEvent);
-    applyScope();
   }
 
   function registerServiceWorker() {
@@ -323,7 +320,6 @@ module game {
       state = gameLogic.getInitialState();
     } else {
       isDrawing = false;
-      isHolding = false;
       state = params.move.stateAfterMove;
     }
   }

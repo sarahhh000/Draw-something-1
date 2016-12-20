@@ -8,7 +8,6 @@ var game;
     game.size = 4;
     game.color = "black";
     game.isMouseDown = false;
-    game.isPlaying = false;
     game.isDrawing = true;
     game.line = { points: new Array() };
     game.timeoutList = [];
@@ -261,7 +260,6 @@ var game;
         registerServiceWorker();
         translate.setTranslations(getTranslations());
         // resizeGameAreaService.setWidthToHeight(0.7);
-        applyScope();
         moveService.setGame({
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,
@@ -271,7 +269,6 @@ var game;
             getStateForOgImage: null,
         });
         dragAndDropService.addDragListener("canvas", handleDragEvent);
-        applyScope();
     }
     game.init = init;
     function registerServiceWorker() {
@@ -302,7 +299,6 @@ var game;
         }
         else {
             game.isDrawing = false;
-            game.isHolding = false;
             game.state = params.move.stateAfterMove;
         }
     }
