@@ -261,6 +261,7 @@ var game;
         registerServiceWorker();
         translate.setTranslations(getTranslations());
         // resizeGameAreaService.setWidthToHeight(0.7);
+        applyScope();
         moveService.setGame({
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,
