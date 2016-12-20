@@ -323,6 +323,7 @@ module game {
       state = gameLogic.getInitialState();
     } else {
       isDrawing = false;
+      isHolding = false;
       state = params.move.stateAfterMove;
     }
   }

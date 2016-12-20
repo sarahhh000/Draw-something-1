@@ -302,6 +302,7 @@ var game;
         }
         else {
             game.isDrawing = false;
+            game.isHolding = false;
             game.state = params.move.stateAfterMove;
         }
     }
