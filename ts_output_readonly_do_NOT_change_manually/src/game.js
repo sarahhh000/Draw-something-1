@@ -2,17 +2,14 @@
 var game;
 (function (game) {
     game.didMakeMove = false;
-    game.isDrawing = true;
-    function returnIsDrawing() {
-        return game.isDrawing;
-    }
-    game.returnIsDrawing = returnIsDrawing;
+    game.isHolding = false;
     game.colors = ["white", "red", "yellow", "blue", "green", "black"];
     game.sizes = [4, 6, 8, 10, 12];
     game.size = 4;
     game.color = "black";
     game.isMouseDown = false;
     game.isPlaying = false;
+    game.isDrawing = true;
     game.line = { points: new Array() };
     game.timeoutList = [];
     function createPoint(xVal, yVal, drawType) {
@@ -153,6 +150,7 @@ var game;
         var nextMove = gameLogic.createMove(game.state, newState, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
         clear();
+        game.isHolding = true;
     }
     game.drawFinish = drawFinish;
     var allLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -216,6 +214,7 @@ var game;
                 return;
             }
             game.isDrawing = !game.isDrawing;
+            game.isHolding = !game.isHolding;
         }
         applyScope();
     }
@@ -270,6 +269,8 @@ var game;
             getStateForOgImage: null,
         });
         dragAndDropService.addDragListener("canvas", handleDragEvent);
+        game.isHolding = false;
+        applyScope();
     }
     game.init = init;
     function registerServiceWorker() {
