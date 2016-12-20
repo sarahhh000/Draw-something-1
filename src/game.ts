@@ -233,7 +233,6 @@ module game {
         return;
       }
       isDrawing = !isDrawing;
-      isHolding = !isHolding;
     }
     applyScope();
   }

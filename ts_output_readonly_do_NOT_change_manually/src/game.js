@@ -214,7 +214,6 @@ var game;
                 return;
             }
             game.isDrawing = !game.isDrawing;
-            game.isHolding = !game.isHolding;
         }
         applyScope();
     }
