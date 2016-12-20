@@ -13,6 +13,9 @@ module game {
   export let didMakeMove: boolean = false;
 
   export let isDrawing = true;
+  export function returnIsDrawing(): boolean {
+    return isDrawing;
+  }
   export let colors = ["white", "red", "yellow", "blue", "green", "black"];
   export let sizes = [4, 6, 8, 10, 12];
   export let size = 4;
@@ -20,6 +23,7 @@ module game {
 
   export var canvas;
   export var ctx;
+  export var gameArea;
   export let isMouseDown = false;
   export let isPlaying = false;
 
@@ -223,6 +227,7 @@ module game {
     }
     empty_blank();
     if (result) {
+
       gameLogic.newRound();
       if (gameLogic.endGame) {
         document.getElementById("end_game_message").innerHTML = "Message: Congrats!! All words are correctly guessed!!";
@@ -230,6 +235,11 @@ module game {
       }
       isDrawing = !isDrawing;
     }
+    applyScope();
+  }
+
+  function applyScope() {
+      $rootScope.$apply();
   }
 
   export function get_answer(): string {

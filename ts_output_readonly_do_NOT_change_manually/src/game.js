@@ -3,6 +3,10 @@ var game;
 (function (game) {
     game.didMakeMove = false;
     game.isDrawing = true;
+    function returnIsDrawing() {
+        return game.isDrawing;
+    }
+    game.returnIsDrawing = returnIsDrawing;
     game.colors = ["white", "red", "yellow", "blue", "green", "black"];
     game.sizes = [4, 6, 8, 10, 12];
     game.size = 4;
@@ -213,8 +217,12 @@ var game;
             }
             game.isDrawing = !game.isDrawing;
         }
+        applyScope();
     }
     game.updateGuesserUI = updateGuesserUI;
+    function applyScope() {
+        $rootScope.$apply();
+    }
     function get_answer() {
         return gameLogic.answer;
     }
