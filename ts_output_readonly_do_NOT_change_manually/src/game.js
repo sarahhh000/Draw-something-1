@@ -215,8 +215,8 @@ var game;
             }
             game.isDrawing = !game.isDrawing;
             game.isHolding = false;
+            applyScope();
         }
-        applyScope();
     }
     game.updateGuesserUI = updateGuesserUI;
     function applyScope() {
@@ -293,6 +293,7 @@ var game;
     function updateUI(params) {
         log.info("Game got updateUI:", params);
         game.didMakeMove = false; // Only one move per updateUI
+        // applyScope();
         game.currentUpdateUI = params;
         game.state = params.move.stateAfterMove;
         if (isFirstMove()) {

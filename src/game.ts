@@ -233,8 +233,9 @@ module game {
       }
       isDrawing = !isDrawing;
       isHolding = false;
+      applyScope();
     }
-    applyScope();
+    
   }
 
   function applyScope() {
@@ -315,6 +316,8 @@ module game {
   export function updateUI(params: IUpdateUI): void {
     log.info("Game got updateUI:", params);
     didMakeMove = false; // Only one move per updateUI
+    
+    // applyScope();
     currentUpdateUI = params;
     state = params.move.stateAfterMove;
     if (isFirstMove()) {
