@@ -209,10 +209,9 @@ button {
 }
 
 #holding {
-  /*position: relative;*/
   position: absolute;
   width: 316px;
-  height: 462px;
+  height: 490px;
   background-color:lightblue;
   border: 2px solid black;
   opacity: 0.7;
@@ -225,7 +224,7 @@ button {
   display: block;
   margin: auto;
   position: relative;
-  top: 35%;
+  top: 38%;
   color: blue;
   text-align: center;
 }

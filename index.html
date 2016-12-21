@@ -30,7 +30,7 @@
             <h3 id="holdingMsg">&#x23f8<br/>Please wait...<br/>Your opponent is playing!</h3>
         </div>
 
-        <div id="playing" ng-show="!game.isHolding">
+        <div id="playing">
             <div id="header">
                 <button ng-click="game.showInstructions()" id="show_instruction_button">Help</button>
                 <button ng-show="game.isDrawing && !game.isInstructionsShowing" ng-click="game.drawFinish()" id="submit">Submit</button>

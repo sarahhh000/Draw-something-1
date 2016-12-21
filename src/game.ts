@@ -21,7 +21,6 @@ module game {
   export var canvas;
   export var ctx;
   export let isMouseDown = false;
-  export let isPlaying = false;
   export let isDrawing = true;
 
   export let currentDrawType: string;
@@ -323,7 +322,6 @@ module game {
       state = gameLogic.getInitialState();
     } else {
       isDrawing = false;
-      isHolding = false;
       state = params.move.stateAfterMove;
     }
   }
