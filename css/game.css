@@ -35,22 +35,11 @@ body {
   background-color: rgb(250,250,250);
 }
 
-#clickToDragPiece {
-  transform: scale(1.6, 1.6);
-}
-
-.slowlyDrop {
-  animation: slowlyDrop 0.5s ease-out;
-}
 @keyframes slowlyDrop {
   from {transform: scale(1.6, 1.6);}
   to {transform: scale(1, 1);}
 }
 
-.explodePiece {
-  z-index: 5;
-  animation: explodePiece 0.5s cubic-bezier(0.420, 0.000, 1.000, 0.830) forwards;
-}
 @keyframes explodePiece {
   from {
     opacity: 1;
@@ -217,4 +206,25 @@ button {
 
 #gameArea {
   width: 320px;
+}
+
+#holding {
+  position: absolute;
+  width: 316px;
+  height: 490px;
+  background-color:lightblue;
+  border: 2px solid black;
+  opacity: 0.7;
+  border-radius: 5px;
+  z-index:1000;
+}
+
+#holdingMsg {
+  position: absolute;
+  display: block;
+  margin: auto;
+  position: relative;
+  top: 38%;
+  color: blue;
+  text-align: center;
 }

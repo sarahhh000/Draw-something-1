@@ -2,17 +2,13 @@
 var game;
 (function (game) {
     game.didMakeMove = false;
-    game.isDrawing = true;
-    function returnIsDrawing() {
-        return game.isDrawing;
-    }
-    game.returnIsDrawing = returnIsDrawing;
+    game.isHolding = false;
     game.colors = ["white", "red", "yellow", "blue", "green", "black"];
     game.sizes = [4, 6, 8, 10, 12];
     game.size = 4;
     game.color = "black";
     game.isMouseDown = false;
-    game.isPlaying = false;
+    game.isDrawing = true;
     game.line = { points: new Array() };
     game.timeoutList = [];
     function createPoint(xVal, yVal, drawType) {
@@ -154,6 +150,8 @@ var game;
         var nextMove = gameLogic.createMove(game.state, newState, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
         clear();
+        game.isHolding = true;
+        applyScope();
     }
     game.drawFinish = drawFinish;
     var allLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -217,8 +215,9 @@ var game;
                 return;
             }
             game.isDrawing = !game.isDrawing;
+            game.isHolding = false;
+            applyScope();
         }
-        applyScope();
     }
     game.updateGuesserUI = updateGuesserUI;
     function applyScope() {
@@ -262,6 +261,7 @@ var game;
         registerServiceWorker();
         translate.setTranslations(getTranslations());
         // resizeGameAreaService.setWidthToHeight(0.7);
+        applyScope();
         moveService.setGame({
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,
@@ -271,6 +271,7 @@ var game;
             getStateForOgImage: null,
         });
         dragAndDropService.addDragListener("canvas", handleDragEvent);
+        applyScope();
     }
     game.init = init;
     function registerServiceWorker() {
@@ -293,6 +294,7 @@ var game;
     function updateUI(params) {
         log.info("Game got updateUI:", params);
         game.didMakeMove = false; // Only one move per updateUI
+        // applyScope();
         game.currentUpdateUI = params;
         game.state = params.move.stateAfterMove;
         if (isFirstMove()) {

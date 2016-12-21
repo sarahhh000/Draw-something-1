@@ -11,11 +11,8 @@ interface Translations {
 
 module game {
   export let didMakeMove: boolean = false;
+  export let isHolding:boolean = false;
 
-  export let isDrawing = true;
-  export function returnIsDrawing(): boolean {
-    return isDrawing;
-  }
   export let colors = ["white", "red", "yellow", "blue", "green", "black"];
   export let sizes = [4, 6, 8, 10, 12];
   export let size = 4;
@@ -23,9 +20,8 @@ module game {
 
   export var canvas;
   export var ctx;
-  export var gameArea;
   export let isMouseDown = false;
-  export let isPlaying = false;
+  export let isDrawing = true;
 
   export let currentDrawType: string;
   export let currentPoint: Point;
@@ -36,7 +32,7 @@ module game {
     return { x: xVal, y: yVal, timestamp: (new Date()).getTime(), colorStyle: color, sizeStyle: size, type: drawType }
   }
 
-  function handleDragEvent(type: string, X, Y, event) {
+  function handleDragEvent(type: string, X:number, Y:number, event) {
     if (isDrawing) {
       if (type == "touchstart") {
         onMouseDown(event, X, Y);
@@ -50,7 +46,7 @@ module game {
     }
   }
 
-  export function onMouseDown(event, X, Y) {
+  export function onMouseDown(event, X:number, Y:number) {
     canvas = <HTMLCanvasElement>document.getElementById("canvas");
     ctx = canvas.getContext("2d");
     ctx.lineCap = "round";
@@ -68,7 +64,7 @@ module game {
     }
   }
 
-  export function onMouseMove(event, X, Y) {
+  export function onMouseMove(event, X: number, Y:number) {
     if (isMouseDown) {
       currentDrawType = "onMouseMove";
       let canvasX = canvas.offsetLeft;
@@ -170,11 +166,13 @@ module game {
     document.getElementById("message").innerHTML = "";
     isDrawing = false;
     let board: Board = line;
-    let newState: IState = {board: board, answer: game.get_answer()};
+    let newState: IState = { board: board, answer: game.get_answer() };
     let nextMove: IMove = gameLogic.createMove(
       state, newState, currentUpdateUI.move.turnIndexAfterMove);
     makeMove(nextMove);
     clear();
+    isHolding = true;
+    applyScope();
   }
 
   let allLetters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -234,12 +232,14 @@ module game {
         return;
       }
       isDrawing = !isDrawing;
+      isHolding = false;
+      applyScope();
     }
-    applyScope();
+    
   }
 
   function applyScope() {
-      $rootScope.$apply();
+    $rootScope.$apply();
   }
 
   export function get_answer(): string {
@@ -281,6 +281,7 @@ module game {
     registerServiceWorker();
     translate.setTranslations(getTranslations());
     // resizeGameAreaService.setWidthToHeight(0.7);
+    applyScope();
     moveService.setGame({
       minNumberOfPlayers: 2,
       maxNumberOfPlayers: 2,
@@ -290,6 +291,7 @@ module game {
       getStateForOgImage: null,
     });
     dragAndDropService.addDragListener("canvas", handleDragEvent);
+    applyScope();
   }
 
   function registerServiceWorker() {
@@ -314,6 +316,8 @@ module game {
   export function updateUI(params: IUpdateUI): void {
     log.info("Game got updateUI:", params);
     didMakeMove = false; // Only one move per updateUI
+    
+    // applyScope();
     currentUpdateUI = params;
     state = params.move.stateAfterMove;
     if (isFirstMove()) {
