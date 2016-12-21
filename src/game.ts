@@ -152,6 +152,7 @@ module game {
   }
 
   export function clear() {
+    line.points = [];
     canvas = <HTMLCanvasElement>document.getElementById("canvas");
     ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.width);
@@ -227,7 +228,6 @@ module game {
     }
     empty_blank();
     if (result) {
-
       gameLogic.newRound();
       if (gameLogic.endGame) {
         document.getElementById("end_game_message").innerHTML = "Message: Congrats!! All words are correctly guessed!!";

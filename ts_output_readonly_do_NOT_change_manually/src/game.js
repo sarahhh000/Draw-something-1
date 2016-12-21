@@ -132,6 +132,7 @@ var game;
         }
     }
     function clear() {
+        game.line.points = [];
         game.canvas = document.getElementById("canvas");
         game.ctx = game.canvas.getContext("2d");
         game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.width);
