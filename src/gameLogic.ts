@@ -14,7 +14,6 @@ interface Board {
 interface IState {
   board: Board;
   answer: string;
-  htmlController: boolean;
 }
 
 module gameLogic {
