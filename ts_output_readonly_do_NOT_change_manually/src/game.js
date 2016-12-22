@@ -2,7 +2,7 @@
 var game;
 (function (game) {
     game.didMakeMove = false;
-    game.isHolding = true;
+    // export let isHolding:boolean = false;
     game.colors = ["white", "red", "yellow", "blue", "green", "black"];
     game.sizes = [4, 6, 8, 10, 12];
     game.size = 4;
@@ -150,7 +150,7 @@ var game;
         var nextMove = gameLogic.createMove(game.state, newState, game.currentUpdateUI.move.turnIndexAfterMove);
         makeMove(nextMove);
         clear();
-        game.isHolding = true;
+        // isHolding = true;
         applyScope();
     }
     game.drawFinish = drawFinish;
