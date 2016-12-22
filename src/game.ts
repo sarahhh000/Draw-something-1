@@ -8,7 +8,7 @@ interface Translations {
 
 module game {
   export let didMakeMove: boolean = false;
-  export let isHolding:boolean = false;
+  export let isHolding:boolean = true;
 
   export let colors = ["white", "red", "yellow", "blue", "green", "black"];
   export let sizes = [4, 6, 8, 10, 12];
@@ -403,7 +403,6 @@ module game {
     log.info("Game got updateUI:", params);
     didMakeMove = false; // Only one move per updateUI
     
-    // applyScope();
     currentUpdateUI = params;
     state = params.move.stateAfterMove;
     if (isFirstMove()) {
@@ -412,7 +411,7 @@ module game {
     } else {
       isDrawing = false;
       state = params.move.stateAfterMove;
-      isHolding = false;
+      // isHolding = false;
       applyScope();
     }
   }

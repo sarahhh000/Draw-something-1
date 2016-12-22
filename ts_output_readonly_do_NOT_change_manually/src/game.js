@@ -2,7 +2,7 @@
 var game;
 (function (game) {
     game.didMakeMove = false;
-    game.isHolding = false;
+    game.isHolding = true;
     game.colors = ["white", "red", "yellow", "blue", "green", "black"];
     game.sizes = [4, 6, 8, 10, 12];
     game.size = 4;
@@ -383,7 +383,6 @@ var game;
     function updateUI(params) {
         log.info("Game got updateUI:", params);
         game.didMakeMove = false; // Only one move per updateUI
-        // applyScope();
         game.currentUpdateUI = params;
         game.state = params.move.stateAfterMove;
         if (isFirstMove()) {
@@ -393,7 +392,7 @@ var game;
         else {
             game.isDrawing = false;
             game.state = params.move.stateAfterMove;
-            game.isHolding = false;
+            // isHolding = false;
             applyScope();
         }
     }
