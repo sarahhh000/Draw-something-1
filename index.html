@@ -26,17 +26,16 @@
 
 <body ng-cloak>
     <div id="gameArea">
-        <!--<div id="holding" ng-show="false" >-->
-        <!--<div id="holding" ng-if="game.isHolding" >
+        <div id="holding" ng-if="game.isHolding" >
             <h3 id="holdingMsg">&#x23f8<br/>Please wait...<br/>Your opponent is playing!</h3>
-        </div>-->
+        </div>
 
         <div id="playing">
             <div id="header">
                 <button ng-click="game.showInstructions()" id="show_instruction_button">{{'HELP' | translate}}</button>
                 <button ng-show="game.isDrawing && !game.isInstructionsShowing" ng-click="game.drawFinish()" id="submit">{{'SUBMIT' | translate}}</button>
                 <button ng-show="!game.isDrawing && !game.isInstructionsShowing" ng-click="game.schedulePlay()" id="Play">{{'REPLAY' | translate}}</button>
-            <div id="title">{{'Draw Something' | translate}}</div>
+                <div id="title">{{'Draw Something' | translate}}</div>
             </div>
 
             <div ng-show="game.isInstructionsShowing" id="instructions">

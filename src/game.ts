@@ -229,7 +229,7 @@ module game {
         return;
       }
       isDrawing = !isDrawing;
-      isHolding = false;
+      // isHolding = false;
       applyScope();
     }
     
@@ -412,6 +412,8 @@ module game {
     } else {
       isDrawing = false;
       state = params.move.stateAfterMove;
+      isHolding = false;
+      applyScope();
     }
   }
 
