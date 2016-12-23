@@ -345,7 +345,7 @@ module game {
         "zh": "你画我猜游戏的目标是根据图画正确猜出单词。每轮游戏，两个玩家将交换角色，轮流作为猜词用户和画图用户。目前在游戏中有30个词。"
       },
       "Sketch Uer Instruction": {
-        "en": "Sketch Uer Instruction",
+        "en": "Sketch Uer Instructions",
         "zh": "画图用户说明"
       },
       "Sketch the given word in canvas area": {
