@@ -341,15 +341,15 @@ module game {
         "zh": "说明"
       },
       "INSMsg": {
-        "en": "The goal of Sketch And Guess Game is to guess all words correctly from the users' sketches. Two players will exchange roles as guess user and draw user each round. There are currently 30 words in the game.",
+        "en": "The goal of Sketch And Guess Game is to guess all words correctly from the users' sketches. Two players will exchange roles as guess user and sketch user each round. There are currently 30 words in the game.",
         "zh": "你画我猜游戏的目标是根据图画正确猜出单词。每轮游戏，两个玩家将交换角色，轮流作为猜词用户和画图用户。目前在游戏中有30个词。"
       },
-      "Draw Uer Instruction": {
-        "en": "Draw Uer Instruction",
+      "Sketch Uer Instruction": {
+        "en": "Sketch Uer Instruction",
         "zh": "画图用户说明"
       },
-      "Draw the given word in canvas area": {
-        "en": "Draw the given word in canvas area",
+      "Sketch the given word in canvas area": {
+        "en": "Sketch the given word in canvas area",
         "zh": "在画布区域中画出指定字词"
       },
       "Choose color and strock thickness by clicking": {
@@ -392,8 +392,8 @@ module game {
         "en": "If guessed word is wrong, all blanks will be vacated automatically",
         "zh": "如果猜测的字词有误，所有空白格子将自动清空"
       },
-      "After correctly guessing a word, the page will automatically go to the draw page.": {
-        "en": "After correctly guessing a word, the page will automatically go to the draw page.",
+      "After correctly guessing a word, the page will automatically go to the sketch page.": {
+        "en": "After correctly guessing a word, the page will automatically go to the sketch page.",
         "zh": "如果猜测的字词正确，网页会自动转到画图页面"
       },
       "Word": {
