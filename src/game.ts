@@ -362,7 +362,7 @@ module game {
       },
       "Click the Submit button in the up right corner when you finish": {
         "en": "Click the 'Submit' button in the up right corner when you finish",
-        "zh": "第一个白色画笔可用作橡皮擦"
+        "zh": "完成绘画后，点击右上角的“提交”按钮"
       },
       "Guess Uer Instructions": {
         "en": "Guess Uer Instruction",
