@@ -304,7 +304,7 @@ var game;
             },
             "SUBMIT": {
                 "en": "Submit",
-                "zh": "播放"
+                "zh": "提交"
             },
             "HELP": {
                 "en": "Help",
