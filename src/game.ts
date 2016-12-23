@@ -344,7 +344,7 @@ module game {
         "en": "The goal of Sketch And Guess Game is to guess all words correctly from the users' sketches. Two players will exchange roles as guess user and sketch user each round. There are currently 30 words in the game.",
         "zh": "你画我猜游戏的目标是根据图画正确猜出单词。每轮游戏，两个玩家将交换角色，轮流作为猜词用户和画图用户。目前在游戏中有30个词。"
       },
-      "Sketch Uer Instruction": {
+      "Sketch Uer Instructions": {
         "en": "Sketch Uer Instructions",
         "zh": "画图用户说明"
       },
@@ -364,7 +364,7 @@ module game {
         "en": "Click the 'Submit' button in the up right corner when you finish",
         "zh": "第一个白色画笔可用作橡皮擦"
       },
-      "Guess Uer Instruction": {
+      "Guess Uer Instructions": {
         "en": "Guess Uer Instruction",
         "zh": "猜词用户说明"
       },
