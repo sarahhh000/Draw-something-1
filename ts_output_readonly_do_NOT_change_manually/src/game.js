@@ -290,8 +290,16 @@ var game;
     }
     function getTranslations() {
         return {
-            "REPLAY": {
-                "en": "Replay",
+            "Please wait...": {
+                "en": "Please wait...",
+                "zh": "请耐心等待"
+            },
+            "Your opponent is playing!": {
+                "en": "Your opponent is playing!",
+                "zh": "您的对手完成"
+            },
+            "PLAY": {
+                "en": "Play",
                 "zh": "播放"
             },
             "SUBMIT": {
@@ -306,8 +314,8 @@ var game;
                 "en": "Back",
                 "zh": "后退"
             },
-            "Draw Something": {
-                "en": "Draw Something",
+            "Sketch And Guess": {
+                "en": "Sketch And Guess",
                 "zh": "你猜我画"
             },
             "Instructions": {
@@ -315,7 +323,7 @@ var game;
                 "zh": "说明"
             },
             "INSMsg": {
-                "en": "The goal of Draw Something Game is to guess all words correctly from the users drawings. Two players will exchange roles as guess user and draw user each round. There are currently 30 words in the game.",
+                "en": "The goal of Sketch And Guess Game is to guess all words correctly from the users' sketches. Two players will exchange roles as guess user and draw user each round. There are currently 30 words in the game.",
                 "zh": "你画我猜游戏的目标是根据图画正确猜出单词。每轮游戏，两个玩家将交换角色，轮流作为猜词用户和画图用户。目前在游戏中有30个词。"
             },
             "Draw Uer Instruction": {
@@ -342,12 +350,12 @@ var game;
                 "en": "Guess Uer Instruction",
                 "zh": "猜词用户说明"
             },
-            "Click Play button in up right corner to play the drawing": {
-                "en": "Click 'Replay' button in up right corner to play the drawing",
+            "Click Play button in up right corner to play the sketches": {
+                "en": "Click 'Replay' button in up right corner to play the sketches",
                 "zh": "点击右上角的“播放”按钮播放图画"
             },
-            "According to the drawing, please guess the word by putting letters into blanks": {
-                "en": "According to the drawing, please guess the word by putting letters into blanks",
+            "According to the sketches, please guess the word by putting letters into blanks": {
+                "en": "According to the sketches, please guess the word by putting letters into blanks",
                 "zh": "根据图画，通过将字母放入空白格子来猜测单词"
             },
             "Blank number is exactly the length of answer word": {

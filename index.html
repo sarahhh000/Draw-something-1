@@ -6,8 +6,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>DrawSomething</title>
-    <meta name="description" content="DrawSomething game">
+    <title>SketchAndGuess</title>
+    <meta name="description" content="SketchAndGuess game">
     <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
     <!-- Suppress browser request for favicon.ico -->
 
@@ -27,34 +27,34 @@
 <body ng-cloak>
     <div id="gameArea">
         <div id="holding" ng-show="!game.isMyTurn()" >
-            <h3 id="holdingMsg">&#x23f8<br/>Please wait...<br/>Your opponent is playing!</h3>
+            <h3 id="holdingMsg">&#x23f8<br/>{{'Please wait...' | translate}}<br/>{{'Your opponent is playing!' | translate}}</h3>
         </div>
 
         <div id="playing">
             <div id="header">
                 <button ng-click="game.showInstructions()" id="show_instruction_button">{{'HELP' | translate}}</button>
                 <button ng-show="game.isDrawing && !game.isInstructionsShowing" ng-click="game.drawFinish()" id="submit">{{'SUBMIT' | translate}}</button>
-                <button ng-show="!game.isDrawing && !game.isInstructionsShowing" ng-click="game.schedulePlay()" id="Play">{{'REPLAY' | translate}}</button>
-                <div id="title">{{'Draw Something' | translate}}</div>
+                <button ng-show="!game.isDrawing && !game.isInstructionsShowing" ng-click="game.schedulePlay()" id="Play">{{'PLAY' | translate}}</button>
+                <div id="title">{{'Sketch And Guess' | translate}}</div>
             </div>
 
             <div ng-show="game.isInstructionsShowing" id="instructions">
                 <button ng-click="game.hideInstructions()" id="hide_instruction_button">{{'BACK' | translate}}</button>
                 <h3 style="color: blue">{{'Instructions' | translate}}</h3>
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;{{'INSMsg' | translate}}</p>
-                <h4 style="color: purple">{{'Draw Uer Instruction' | translate}}:</h4>
-                    <li>{{'Draw the given word in canvas area' | translate}}</li>
+                <h4 style="color: purple">{{'Sketch Uer Instruction' | translate}}:</h4>
+                    <li>{{'Sketch the given word in canvas area' | translate}}</li>
                     <li>{{'Choose color and strock thickness by clicking' | translate}}</li>
                     <li>{{'The first white color stroke could be used as eraser' | translate}}</li>
                     <li>{{'Click the Submit button in the up right corner when you finish' | translate}}</li>
                 <h4 style="color: green">{{'Guess Uer Instruction' | translate}}:</h4>
-                    <li>{{'Click Play button in up right corner to play the drawing' | translate}}</li>
-                    <li>{{'According to the drawing, please guess the word by putting letters into blanks' | translate}}<br>
+                    <li>{{'Click Play button in up right corner to play the sketches' | translate}}</li>
+                    <li>{{'According to the sketches, please guess the word by putting letters into blanks' | translate}}<br>
                     <li>{{'Blank number is exactly the length of answer word' | translate}}<br>
                     <li>{{'Click letter below canvas area to put it into blank' | translate}}<br>
                     <li>{{'Click the last filled in letter in blank to put letter back' | translate}}<br>
                     <li>{{'If guessed word is wrong, all blanks will be vacated automatically' | translate}}<br>
-                    <li>{{'After correctly guessing a word, the page will automatically go to the draw page.' | translate}}</li>
+                    <li>{{'After correctly guessing a word, the page will automatically go to the sketch page.' | translate}}</li>
             </div>
 
             <div id="answerArea">
